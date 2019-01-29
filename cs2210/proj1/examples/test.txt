@@ -1,0 +1,34 @@
+/* Example Comment */
+program xyz;
+	class Test {
+		method void main() {
+			declarations [
+				int abc;
+				ABC := 1234;
+			] enddeclarations
+			/* Muilt Line Comment
+				exciting */
+			if (a && b) {
+				while (A != B) {
+					System.println('println');
+				}
+			} else {
+				abcd := 1234
+			}
+			val rf := 'A \'multiline\' string
+!\t!\n';
+			a == b;
+			a > b
+			a || b
+			a, b
+			a / b
+			a >= b
+			a <= b
+			a < b
+			!a
+			a - b
+			a + b
+			a * b
+			return h;
+		}
+	}
