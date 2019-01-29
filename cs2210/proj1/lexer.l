@@ -136,7 +136,7 @@ int yycolumn = 1;
 int yylval = 0;
 int st_index = 0;
 
-/* Array of Token Names for final output */
+/* Array of Token Names */
 const char * tokens[] = {
 	"ANDnum",
 	"ASSGNnum",
@@ -179,7 +179,7 @@ const char * tokens[] = {
 	"VOIDnum"
 };
 
-/* method to track the line and column */
+/* Func to track the line and column */
 int pos() {
 	/* if this is a new line reset the line and column */
 	if (yytext[0] == '\n') {
@@ -214,7 +214,7 @@ void print_symbolTable() {
 	printf("\n");
 }
 
-/* Method to handle addition to the symbolTable */
+/* func to handle addition to the symbolTable */
 void string_table(char a[]) {
 	/* Search for the string in the table */
 	int search_index = search(a);
@@ -272,7 +272,7 @@ int search(char a[]) {
 	return -1;
 }
 
-/* Search for the string in the table 
+/* Search for string in table 
 This is rewritten in phase to because if you had the string 
 xyz in the table at position 0 and then the string z at position 
 14 seaching for the string z would return the one at 2 rather
