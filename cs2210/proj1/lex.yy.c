@@ -565,24 +565,31 @@ char *yytext;
 #include "token.h"
 
 #define LIMIT1 500
+#define LIMIT2 4096
 
 extern int yycolumn, yylength, yyline, yylval;
-int st_index;
-int pos();
-char * tolowercase(char a[]);
-void report_error(char str[]);
-void print_symbolTable();
+
+int tbl_index, pos();
+
+char* tolowercase(char c[]);
+
+void output_error(char str[]);
+void symbolTablePrint();
 void string_table(char str[]);
+
 int search(char str[]);
 int insert(char str[]);
 
 char string_buf[LIMIT1];
+char string_buf2[LIMIT2];
 char *string_buf_ptr;
+char *string_but_ptr2;
+
 int str_error = 0;
 
 
-/* regular definitions */
-#line 586 "lex.yy.c"
+/* regex tokenizing */
+#line 593 "lex.yy.c"
 
 #define INITIAL 0
 #define comment 1
@@ -766,10 +773,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 46 "lexer.l"
+#line 55 "lexer.l"
 
 
-#line 773 "lex.yy.c"
+#line 780 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -854,227 +861,227 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 48 "lexer.l"
+#line 57 "lexer.l"
 {BEGIN(comment);}
 	YY_BREAK
 
 case 2:
 YY_RULE_SETUP
-#line 50 "lexer.l"
+#line 59 "lexer.l"
 /* Discard any non '*' */
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 51 "lexer.l"
+#line 60 "lexer.l"
 /* Discard any '*' not followed by '/' */
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 52 "lexer.l"
+#line 61 "lexer.l"
 {yyline++; yycolumn = 0;}
 	YY_BREAK
 case YY_STATE_EOF(comment):
-#line 53 "lexer.l"
-{report_error("Unterminated Comment"); 
+#line 62 "lexer.l"
+{output_error("Unterminated Comment"); 
 						 BEGIN(INITIAL);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 55 "lexer.l"
+#line 64 "lexer.l"
 BEGIN(INITIAL);
 	YY_BREAK
 
 case 6:
 YY_RULE_SETUP
-#line 57 "lexer.l"
+#line 66 "lexer.l"
 {pos(); return(ANDnum);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 58 "lexer.l"
+#line 67 "lexer.l"
 {pos(); return(ASSGNnum);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 59 "lexer.l"
+#line 68 "lexer.l"
 {pos(); return(DECLARATIONSnum);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 60 "lexer.l"
+#line 69 "lexer.l"
 {pos(); return(DOTnum);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 61 "lexer.l"
+#line 70 "lexer.l"
 {pos(); return(ENDDECLARATIONSnum);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 62 "lexer.l"
+#line 71 "lexer.l"
 {pos(); return(EQUALnum);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 63 "lexer.l"
+#line 72 "lexer.l"
 {pos(); return(GTnum);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 64 "lexer.l"
+#line 73 "lexer.l"
 {pos(); return(INTnum);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 65 "lexer.l"
+#line 74 "lexer.l"
 {pos(); return(LBRACnum);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 66 "lexer.l"
+#line 75 "lexer.l"
 {pos(); return(LPARENnum);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 67 "lexer.l"
+#line 76 "lexer.l"
 {pos(); return(METHODnum);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 68 "lexer.l"
+#line 77 "lexer.l"
 {pos(); return(NEnum);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 69 "lexer.l"
+#line 78 "lexer.l"
 {pos(); return(ORnum);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 70 "lexer.l"
+#line 79 "lexer.l"
 {pos(); return(PROGRAMnum);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 71 "lexer.l"
+#line 80 "lexer.l"
 {pos(); return(RBRACnum);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 72 "lexer.l"
+#line 81 "lexer.l"
 {pos(); return(RPARENnum);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 73 "lexer.l"
+#line 82 "lexer.l"
 {pos(); return(SEMInum);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 74 "lexer.l"
+#line 83 "lexer.l"
 {pos(); return(VALnum);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 75 "lexer.l"
+#line 84 "lexer.l"
 {pos(); return(WHILEnum);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 76 "lexer.l"
+#line 85 "lexer.l"
 {pos(); return(CLASSnum);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 77 "lexer.l"
+#line 86 "lexer.l"
 {pos(); return(COMMAnum);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 78 "lexer.l"
+#line 87 "lexer.l"
 {pos();	return(DIVIDEnum);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 79 "lexer.l"
+#line 88 "lexer.l"
 {pos(); return(ELSEnum);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 80 "lexer.l"
+#line 89 "lexer.l"
 {pos(); return(EQnum);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 81 "lexer.l"
+#line 90 "lexer.l"
 {pos(); return(GEnum);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 82 "lexer.l"
+#line 91 "lexer.l"
 {pos(); return(IFnum);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 83 "lexer.l"
+#line 92 "lexer.l"
 {pos(); return(LBRACEnum);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 84 "lexer.l"
+#line 93 "lexer.l"
 {pos(); return(LEnum);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 85 "lexer.l"
+#line 94 "lexer.l"
 {pos(); return(LTnum);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 86 "lexer.l"
+#line 95 "lexer.l"
 {pos(); return(MINUSnum);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 87 "lexer.l"
+#line 96 "lexer.l"
 {pos(); return(NOTnum);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 88 "lexer.l"
+#line 97 "lexer.l"
 {pos(); return(PLUSnum);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 89 "lexer.l"
+#line 98 "lexer.l"
 {pos(); return(RBRACEnum);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 90 "lexer.l"
+#line 99 "lexer.l"
 {pos(); return(RETURNnum);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 91 "lexer.l"
+#line 100 "lexer.l"
 {pos(); return(TIMESnum);}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 92 "lexer.l"
+#line 101 "lexer.l"
 {pos(); return(VOIDnum);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 94 "lexer.l"
+#line 103 "lexer.l"
 {pos();
 						 yylval = atoi(yytext); 
 						 return(ICONSTnum);}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 98 "lexer.l"
+#line 107 "lexer.l"
 {string_buf_ptr = string_buf;
 						 pos();
 						 *string_buf_ptr++ = '\'';						
@@ -1083,9 +1090,9 @@ YY_RULE_SETUP
 
 case 44:
 YY_RULE_SETUP
-#line 103 "lexer.l"
+#line 112 "lexer.l"
 { /* Closing Quote, all done  */
-                            *string_buf_ptr++ = '\'';
+      				                      *string_buf_ptr++ = '\'';
 							pos();
 							BEGIN(INITIAL);
 							*string_buf_ptr = '\0';
@@ -1096,31 +1103,31 @@ YY_RULE_SETUP
 case 45:
 /* rule 45 can match eol */
 YY_RULE_SETUP
-#line 111 "lexer.l"
+#line 120 "lexer.l"
 pos();
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 112 "lexer.l"
+#line 121 "lexer.l"
 pos(); *string_buf_ptr++ = '\n';
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 113 "lexer.l"
+#line 122 "lexer.l"
 pos(); *string_buf_ptr++ = '\t';
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 114 "lexer.l"
+#line 123 "lexer.l"
 pos(); *string_buf_ptr++ = '\'';
 	YY_BREAK
 case YY_STATE_EOF(str):
-#line 115 "lexer.l"
-{report_error("EOF Unterminated String"); BEGIN(INITIAL);}
+#line 124 "lexer.l"
+{output_error("EOF Unterminated String"); BEGIN(INITIAL);}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 116 "lexer.l"
+#line 125 "lexer.l"
 {pos();
 						 *string_buf_ptr++ = *yytext;
 						}
@@ -1128,40 +1135,40 @@ YY_RULE_SETUP
 
 case 50:
 YY_RULE_SETUP
-#line 121 "lexer.l"
+#line 130 "lexer.l"
 {pos();
 						 string_table(yytext);
 						 return(IDnum);}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 125 "lexer.l"
+#line 134 "lexer.l"
 {pos();}
 	YY_BREAK
 case 52:
 /* rule 52 can match eol */
 YY_RULE_SETUP
-#line 126 "lexer.l"
+#line 135 "lexer.l"
 {pos();}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 127 "lexer.l"
+#line 136 "lexer.l"
 {pos();
-						 report_error("Bad Identifier");}
+						 output_error("Bad Identifier");}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 129 "lexer.l"
+#line 138 "lexer.l"
 {pos();
-   						 report_error("Bad Lexeme");}
+   						 output_error("Bad Lexeme");}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 132 "lexer.l"
+#line 141 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1165 "lex.yy.c"
+#line 1172 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2159,16 +2166,19 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 132 "lexer.l"
+#line 141 "lexer.l"
+
 
 
 char symbolTable[LIMIT1 + 1];
+//char symbolTable[LIMIT2 + 1];
+
 int yyline = 1;
 int yycolumn = 1;
 int yylval = 0;
-int st_index = 0;
+int tbl_index = 0;
 
-/* Array of Token Names for final output */
+/* Token names list*/
 const char * tokens[] = {
 	"ANDnum",
 	"ASSGNnum",
@@ -2211,32 +2221,33 @@ const char * tokens[] = {
 	"VOIDnum"
 };
 
-/* method to track the line and column */
+/* pos() func to track the line and column num */
 int pos() {
-	/* if this is a new line reset the line and column */
+	/* Reset line num and column num when '\n' is seen */
 	if (yytext[0] == '\n') {
 		yyline++;
 		yycolumn = 0;
-	} else {
-    	int i;
-    	for (i = 0; yytext[i] != '\0'; i++) {
-			/* if it is a tab move the column line 4 spaces */
-    		if (yytext[i] == '\t') {
-    			yycolumn += 4 - (yycolumn % 4);
-    		}
+	} 
+	else {
+    		int i;
+		for (i = 0; yytext[i] != '\0'; i++) {
+			/* if '\t' is seen, move the column right 4 spaces (and account for extra space at begining) */
+    			if (yytext[i] == '\t') {
+    				yycolumn += 4 - (yycolumn % 4);
+    			}
 			/* move column one space */
-    		else {
-    			yycolumn++;
+    			else {
+    				yycolumn++;
+    			}
     		}
-    	}
   	}
 }
 
-/* Print the symbol table for final output */
-void print_symbolTable() {
-	int i;
+/* Print symbol table*/
+void symbolTablePrint() {
 	printf("Symbol Table: ");
-	for (i = 0; i < st_index; i++) {
+	int i;
+	for (i = 0; i < tbl_index; i++) {
 		while (symbolTable[i] != '\0') {
 			printf("%c", symbolTable[i]);
 			i++;
@@ -2246,57 +2257,59 @@ void print_symbolTable() {
 	printf("\n");
 }
 
-/* Method to handle addition to the symbolTable */
-void string_table(char a[]) {
+/* func to handle addition to the symbolTable */
+void string_table(char c[]) {
 	/* Search for the string in the table */
-	int search_index = search(a);
-	/* if it was not found insert into table and return index where
-	   it was inserted */
+	int search_index = search(c);
+	/* if string is not found, insert into table and return index where inserted */
 	if (search_index == -1) {
-		a = tolowercase(a);
-		yylval = insert(a);
+		c = tolowercase(c); /*convert*/
+		yylval = insert(c);
 	/* if found return index it was found at */
-	} else {
+	} 
+	else {
 		yylval = search_index;
 	}
 }
 
-char * tolowercase(char a[]) {
+char* tolowercase(char c[]) {
 /* transform an identifier to lower case representation */
-  int i;
-  for( i=0; i<yyleng; i++ )
-  {
-     if ( 'A'<=a[i] && a[i]<='Z' )
-        a[i] = a[i] - 'A' + 'a';
-  }
-  return a;
+  	int i;
+	for(i = 0; i < yyleng; i++ ) {
+     		if ( 'A' <= c[i] && c[i] <= 'Z' ) {
+        		c[i] = c[i] - 'A' + 'a';
+		}
+  	}
+  	return c;
 }
 
-/* insert into the symboltable */
-int insert(char a[]) {
+/* insert into symbolTable */
+int insert(char c[]) {
 	/* Check if there is room for the string */
-	if (strlen(a) + st_index >= LIMIT1) {
+	if (strlen(c) + tbl_index >= LIMIT1) {
 		printf("Lexeme too long.\n");
 		return -1;
 	}
 	/* Copy the string into the table */
-	strcpy(&(symbolTable[st_index]), a);
+	strcpy(&(symbolTable[tbl_index]), c);
 	/* Set new end index and return there the string was inserted */
-	int temp = st_index;
-	st_index += strlen(a) + 1;
+	int temp = tbl_index;
+	tbl_index += strlen(c) + 1;
 	return temp;
 }
 
 
-int search(char a[]) {
+int search(char c[]) {
 	int i = 0;
 	char word[LIMIT1];
 	symbolTable[LIMIT1] = '\0';
+	
 	while (i < LIMIT1) {
 		strcpy(&word[0], &(symbolTable[i]));
-		if (!strcasecmp(word, a)) {
+		if (!strcasecmp(word, c)) {
 			return i;
-		} else {
+		} 
+		else {
 			i = i + strlen(word);
 		}
 		i++;
@@ -2304,27 +2317,8 @@ int search(char a[]) {
 	return -1;
 }
 
-/* Search for the string in the table 
-This is rewritten in phase to because if you had the string 
-xyz in the table at position 0 and then the string z at position 
-14 seaching for the string z would return the one at 2 rather
-than the one at 14 which is the one we want
-int search(char a[]) {
-	int i;
-	char word[LIMIT1];
-	symbolTable[LIMIT1] = '\0';
-	for (i = 0; i < LIMIT1; i++) {
-		strcpy(word, &(symbolTable[i]));
-		printf("%s\n", word);
-		if (!strcasecmp(&(symbolTable[i]), a)) {
-			return i;
-	    }
-	}
-	return -1;
-}*/
-
-/* report an error */
-void report_error(char a[]) {
-	printf("ERROR: %s at Line: %d, Column: %d\n", a, yyline, yycolumn);
+/* Error output */
+void output_error(char c[]) {
+	printf("ERROR: %s at Line: %d, Column: %d\n", c, yyline, yycolumn);
 }
 
