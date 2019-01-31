@@ -2220,6 +2220,11 @@ const char * tokens[] = {
 	"EOFnum"
 };
 
+/*needed to override -ll (lex lib) issue */
+int yywrap(void) {
+	return 1;
+}
+
 /* pos() func to track the line and column num */
 int pos() {
 	/* Reset line num and column num when '\n' is seen */
@@ -2320,4 +2325,5 @@ int search(char c[]) {
 void output_error(char c[]) {
 	printf("ERROR: %s '%s' at Line: %d, Column: %d\n", c, yytext, yyline, yycolumn);
 }
+
 
