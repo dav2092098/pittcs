@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "lex.yy.c"
 
-extern int yylex();
+extern int yylex(); /*returns results of tokenization, lexical analysis*/
 //extern int yylineno;
 //extern char* yytext;
 extern void symbolTablePrint();

@@ -1,15 +1,18 @@
 %{
 #include <stdlib.h>
 #include <string.h>
-#include "token.h"
+#include "lexer.h"
 
 #define LIMIT1 500
 #define LIMIT2 4096
 
-extern int yycolumn, yylength, yyline, yylval;
+/*external vars set by yylex  containing token column, length, line, and value*/
+extern int yycolumn, yylength, yyline, yylval;  
 
+/*vars containing symbol table index and scanner position (row & col)*/
 int tbl_index, pos();
 
+/*for case insensitivity*/
 char* tolowercase(char c[]);
 
 void output_error(char str[]);
@@ -56,14 +59,14 @@ BADIDnum					{digit}({letter}|{digit})*
 
 "/*"						{BEGIN(comment);}
 <comment>{
-	[^*\n]*					/* Discard any non '*' */
-	"*"+[^*/\n]				/* Discard any '*' not followed by '/' */
+	[^*\n]*					/* Ignore any non '*' across lines */
+	"*"+[^*/\n]				/* Ignore any '*' not followed by '/' */
 	\n					{yyline++; yycolumn = 0;}
-	<<EOF>>					{output_error("Unterminated Comment"); 
-						 BEGIN(INITIAL);}
-	"*"+"/"					BEGIN(INITIAL);
+	<<EOF>>					{output_error("Unterminated Comment"); BEGIN(INITIAL);}
+	"*"+"/"					BEGIN(INITIAL); /*If a 'star/' is seen exit comments */
 }
-"&&"						{pos(); return(ANDnum);}
+
+"&&"						{pos(); return(ANDnum);} /* get position (row + col) and tokenize */
 ":="						{pos(); return(ASSGNnum);}
 {declarations} 					{pos(); return(DECLARATIONSnum);}
 "." 						{pos(); return(DOTnum);}
@@ -100,9 +103,7 @@ BADIDnum					{digit}({letter}|{digit})*
 "*"						{pos(); return(TIMESnum);}
 {void}						{pos(); return(VOIDnum);}
 
-{ICONSTnum}					{pos();
-						 yylval = atoi(yytext); 
-						 return(ICONSTnum);}
+{ICONSTnum}					{pos(); yylval = atoi(yytext); return(ICONSTnum);}
 
 \'						{string_buf_ptr = string_buf;
 						 pos();
