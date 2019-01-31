@@ -13,7 +13,7 @@ extern int yycolumn, yylength, yyline, yylval;
 int tbl_index, pos();
 
 /*for case insensitivity*/
-char* tolowercase(char c[]);
+char* lowerCase(char c[]);
 
 void output_error(char str[]);
 void symbolTablePrint();
@@ -31,7 +31,7 @@ int str_error = 0;
 %}
 
 %x comment
-%x str
+%x string
 
 /* regex tokenizing */
 letter						[A-Za-z]
@@ -104,17 +104,19 @@ BADIDnum					{digit}({letter}|{digit})*
 {void}						{pos(); return(VOIDnum);}
 
 {ICONSTnum}					{pos(); yylval = atoi(yytext); return(ICONSTnum);}
+"\0"						{pos(); return(EOFnum);}
 
-\'						{string_buf_ptr = string_buf;
+\'						{/*Begin string*/
+						string_buf_ptr = string_buf;
 						 pos();
-						 *string_buf_ptr++ = '\'';						
-						 BEGIN(str);}
-<str>{
-	\'					{ /* Closing Quote, all done  */
-      				                      *string_buf_ptr++ = '\'';
+						 *string_buf_ptr++ = '\'';   /*add '\' into next string index*/						
+						 BEGIN(string);}
+<string>{
+	\'					{ /* End string */
+      				                      *string_buf_ptr++ = '\''; 
 							pos();
 							BEGIN(INITIAL);
-							*string_buf_ptr = '\0';
+							*string_buf_ptr = '\0'; 
 							string_table(string_buf);
 							return(SCONSTnum);
 						}
@@ -123,31 +125,23 @@ BADIDnum					{digit}({letter}|{digit})*
 	\\t					pos(); *string_buf_ptr++ = '\t';
 	\\\'					pos(); *string_buf_ptr++ = '\'';
 	<<EOF>>					{output_error("EOF Unterminated String"); BEGIN(INITIAL);}
-	.					{pos();
-						 *string_buf_ptr++ = *yytext;
-						}
+	.					{pos(); *string_buf_ptr++ = *yytext;}
 }
-
-{IDnum}						{pos();
-						 string_table(yytext);
-						 return(IDnum);}
+					
+{IDnum}						{pos(); string_table(yytext); return(IDnum);}
 
 {ws}						{pos();}
 {newline} 					{pos();}
-{BADIDnum}					{pos();
-						 output_error("Bad Identifier");}
-.						{pos();
-   						 output_error("Bad Lexeme");}
+{BADIDnum}					{pos(); output_error("Malformed Identifier");}
+.						{pos(); output_error("Unmatched string");}
 
 %%
 
+int yycolumn = 1, yyline = 1;
+int yylval = 0, tbl_index = 0;
+
 char symbolTable[LIMIT1 + 1];
 //char symbolTable[LIMIT2 + 1];
-
-int yyline = 1;
-int yycolumn = 1;
-int yylval = 0;
-int tbl_index = 0;
 
 /* Token names list*/
 const char * tokens[] = {
@@ -189,7 +183,8 @@ const char * tokens[] = {
 	"RETURNnum",
 	"SCONSTnum",
 	"TIMESnum",
-	"VOIDnum"
+	"VOIDnum",
+	"EOFnum"
 };
 
 /* pos() func to track the line and column num */
@@ -234,7 +229,7 @@ void string_table(char c[]) {
 	int search_index = search(c);
 	/* if string is not found, insert into table and return index where inserted */
 	if (search_index == -1) {
-		c = tolowercase(c); /*convert*/
+		c = lowerCase(c); /*convert case*/
 		yylval = insert(c);
 	/* if found return index it was found at */
 	} 
@@ -243,8 +238,8 @@ void string_table(char c[]) {
 	}
 }
 
-char* tolowercase(char c[]) {
-/* transform an identifier to lower case representation */
+char* lowerCase(char c[]) {
+/* make lower case for uniform, insensitive casing*/
   	int i;
 	for(i = 0; i < yyleng; i++ ) {
      		if ( 'A' <= c[i] && c[i] <= 'Z' ) {
@@ -258,7 +253,7 @@ char* tolowercase(char c[]) {
 int insert(char c[]) {
 	/* Check if there is room for the string */
 	if (strlen(c) + tbl_index >= LIMIT1) {
-		printf("Lexeme too long.\n");
+		printf("Max lexeme length exceeded.\n");
 		return -1;
 	}
 	/* Copy the string into the table */
@@ -290,5 +285,5 @@ int search(char c[]) {
 
 /* Error output */
 void output_error(char c[]) {
-	printf("ERROR: %s at Line: %d, Column: %d\n", c, yyline, yycolumn);
+	printf("ERROR: %s '%s' at Line: %d, Column: %d\n", c, yytext, yyline, yycolumn);
 }
