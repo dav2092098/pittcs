@@ -347,9 +347,9 @@ void indent (x)
 
   for (i = 0; i < x; i++)
   {
-    fprintf (treelst,"%s", crosses [i]? "| " : "  ");
+    printf("%s", crosses [i]? "| " : "  ");
   }
-  fprintf (treelst,"%s", x ? "+-" : "R-");
+  printf("%s", x ? "+-" : "R-");
   if (x)
     crosses [x] = (crosses [x] + 1) % 2;
 }
@@ -383,12 +383,12 @@ void printtree (nd, depth)
   if (!depth)
   {
     zerocrosses ();
-    fprintf (treelst,"************* SYNTAX TREE PRINTOUT ***********\n\n");
+    printf ("************* SYNTAX TREE PRINTOUT ***********\n\n");
   }
   if (IsNull (nd))
   {
     indent (depth);
-    fprintf (treelst,"[DUMMYnode]\n");
+    printf("[DUMMYnode]\n");
     return;
   }
   if (NodeKind (nd) == EXPRNode)
@@ -401,11 +401,11 @@ void printtree (nd, depth)
 		    if (indx >= 0)
 		    {
 		      id = indx; /*GetAttr(indx, NAME_ATTR); */
-		      fprintf (treelst,"[IDNode,%d,\"%s\"]\n", IntVal(nd),
+		      printf("[IDNode,%d,\"%s\"]\n", IntVal(nd),
                                                     getname(id));
 		    }
 		    else 
-		      fprintf (treelst,"[IDNode,%d,\"%s\"]\n", indx, "err");
+		      printf("[IDNode,%d,\"%s\"]\n", indx, "err");
 		    break;
 	#ifndef parser	
     case STNode:
@@ -413,36 +413,36 @@ void printtree (nd, depth)
                     if (indx > 0)
                     {
                       id = indx; /* GetAttr(indx, NAME_ATTR); */
-                      fprintf (treelst,"[STNode,%d,\"%s\"]\n", IntVal(nd),
+                      printf("[STNode,%d,\"%s\"]\n", IntVal(nd),
                                                 getname(GetAttr(IntVal(nd), 1)));
                     }
                     else 
-                      fprintf (treelst,"[IDNode,%d,\"%s\"]\n", indx, "err");
+                      printf("[IDNode,%d,\"%s\"]\n", indx, "err");
                     break;
 	#endif
     case INTEGERTNode:
-                      fprintf (treelst,"[INTEGERTNode]\n");
+                      printf("[INTEGERTNode]\n");
                     break;
 
-    case NUMNode:   fprintf (treelst,"[NUMNode,%d]\n", IntVal (nd));
+    case NUMNode:   printf("[NUMNode,%d]\n", IntVal (nd));
 		    break;
 
     case CHARNode:  if (isprint (IntVal (nd)))
-		      fprintf (treelst,"[CHARNode,%d,\'%c\']\n",
+		      printf("[CHARNode,%d,\'%c\']\n",
 					 IntVal (nd), IntVal (nd));
 		    else
-		      fprintf (treelst,"[CHARNode,%d,\'\\%o\']\n",
+		      printf("[CHARNode,%d,\'\\%o\']\n",
 					 IntVal (nd), IntVal (nd));
 		    break;
 
-    case STRINGNode:fprintf (treelst,"[STRINGNode,%d,\"%s\"]\n", IntVal (nd),
+    case STRINGNode:printf("[STRINGNode,%d,\"%s\"]\n", IntVal (nd),
 							getstring(IntVal(nd)));
 		    break;
 
-    case EXPRNode:  fprintf (treelst,"[%s]\n", 
+    case EXPRNode:  printf("[%s]\n", 
 					opnodenames [NodeOp(nd) - ProgramOp]);
 		    break;
-    default:	    fprintf (treelst,"INVALID!!!\n");
+    default:	    printf("INVALID!!!\n");
 		    break;
   }
   if (NodeKind (nd) == EXPRNode)
