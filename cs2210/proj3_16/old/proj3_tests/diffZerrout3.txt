@@ -1,0 +1,34 @@
+1,2c1,2
+< Semantic Error--line: 30, symbol x: has incorrect number of dimensions.
+< Semantic Error--line: 30, symbol z: has incorrect number of dimensions.
+---
+> Semantic Error--line: 29, symbol x: has incorrect number of dimensions.
+> Semantic Error--line: 29, symbol z: has incorrect number of dimensions.
+8c8
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+10,16c10,16
+<   4          y          1                            array   14407904                                1           
+<   5          x          1                            array   14407904                                1           
+<   6          z          1                            array   14408720                                2           
+<   7       main          1                        procedure                                                      0
+<   8          a          2                         variable   14409392                                            
+<   9       next          1                        procedure                                                      1
+<  10          x          2                          ref_arg   14412080                                            
+---
+>   4          y          1                            array  147658104                                1           
+>   5          x          1                            array  147658104                                1           
+>   6          z          1                            array  147658560                                2           
+>   7       main          1                        procedure                                                       
+>   8          a          2                         variable  147658944                                            
+>   9       next          1                        procedure                                                       
+>  10          x          2                          ref_arg  147660432                                            
+20c20
+<   +-[IDNode,0,"err3"]
+---
+>   +-[DUMMYnode]
+46c46
+<     | |   |         | +-[STRINGNode,40,"Test"]
+---
+>     | |   |         | +-[STRINGNode,40,"'Test'"]

@@ -1,0 +1,20 @@
+6c6
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+8,10c8,10
+<   4          x          1                         variable   23914672                                            
+<   5       main          1                        procedure                                                      0
+<   6          x          2                         variable   23915152                                            
+---
+>   4          x          1                         variable   29295808                                            
+>   5       main          1                        procedure                                                       
+>   6          x          2                         variable   29296320                                            
+13c13
+<   +-[IDNode,0,"ex1"]
+---
+>   +-[DUMMYnode]
+19c19
+<   | | |               | +-[STRINGNode,29,"x>=0"]
+---
+>   | | |               | +-[STRINGNode,29,"'x>=0'"]

@@ -1,0 +1,40 @@
+6c6
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+8,12c8,12
+<   4          x          1                            array    9799904                                1           
+<   5         ia          1                            array    9800480                                1           
+<   6       main          1                        procedure                                                      0
+<   7          y          2                            array    9801248                                1           
+<   8          z          2                         variable    9801776                                            
+---
+>   4          x          1                            array   22156528                                1           
+>   5         ia          1                            array   22157136                                1           
+>   6       main          1                        procedure                                                       
+>   7          y          2                            array   22157968                                1           
+>   8          z          2                         variable   22158528                                            
+15c15
+<   +-[IDNode,0,"ex4"]
+---
+>   +-[DUMMYnode]
+147c147
+<   | | |     |         |   | +-[STRINGNode,56,"ia[2]="]
+---
+>   | | |     |         |   | +-[STRINGNode,59,"'ia[2]='"]
+177c177
+<   | | |     |             |   | +-[STRINGNode,48,"ia[1]="]
+---
+>   | | |     |             |   | +-[STRINGNode,50,"'ia[1]='"]
+203c203
+<   | | |     |                 |   | +-[STRINGNode,36,"z="]
+---
+>   | | |     |                 |   | +-[STRINGNode,36,"'z='"]
+233c233
+<   | | |     |                     |   | +-[STRINGNode,40,"ia[0]="]
+---
+>   | | |     |                     |   | +-[STRINGNode,41,"'ia[0]='"]
+259c259
+<   | | |     |                         |   | +-[STRINGNode,36,"z="]
+---
+>   | | |     |                         |   | +-[STRINGNode,36,"'z='"]

@@ -1,0 +1,22 @@
+1d0
+< Semantic Error--line: 22, routine func: argument number is different with the previous declaration. 
+7,10c6,9
+<   2       func          1                         function   23423152                                           3
+<   3          x          2                          ref_arg   23423584                                            
+<   4          y          2                          ref_arg   23423392                                            
+<   5          z          2                          ref_arg   23423200                                            
+---
+>   2       func          1                         function  138143072                                            
+>   3          x          2                          ref_arg  138143168                                            
+>   4          y          2                          ref_arg  138143264                                            
+>   5          z          2                          ref_arg  138143384                                            
+12,13c11,12
+<   7       main          1                        procedure                                                      0
+<   8          w          2                         variable   23424784                                            
+---
+>   7       main          1                        procedure                                                       
+>   8          w          2                         variable  138144032                                            
+16c15
+<   +-[IDNode,0,"err4"]
+---
+>   +-[DUMMYnode]

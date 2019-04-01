@@ -1,0 +1,24 @@
+6c6
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+8,14c8,14
+<   4    product          1                         function   26749104                                           3
+<   5          p          2                          ref_arg   26749152                                            
+<   6          x          2                          val_arg   26749536                                            
+<   7          y          2                          val_arg   26749344                                            
+<   8       main          1                        procedure                                                      0
+<   9          p          2                         variable   26750928                                            
+<  10          x          2                         variable   26750928                                            
+---
+>   4    product          1                         function   26408128                                            
+>   5          p          2                          ref_arg   26408304                                            
+>   6          x          2                          val_arg   26408576                                            
+>   7          y          2                          val_arg   26408752                                            
+>   8       main          1                        procedure                                                       
+>   9          p          2                         variable   26410128                                            
+>  10          x          2                         variable   26410128                                            
+17c17
+<   +-[IDNode,0,"ex6"]
+---
+>   +-[DUMMYnode]

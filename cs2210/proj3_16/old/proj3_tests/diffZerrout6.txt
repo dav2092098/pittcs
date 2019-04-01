@@ -1,0 +1,54 @@
+1,5d0
+< Semantic Error--line: 23, symbol a: is String Contstant outside of an output function.
+< Semantic Error--line: 23, symbol b: is String Contstant outside of an output function.
+< Semantic Error--line: 23, symbol c: is String Contstant outside of an output function.
+< Semantic Error--line: 23, symbol m: is String Contstant outside of an output function.
+< Semantic Error--line: 23, symbol v: is String Contstant outside of an output function.
+11c6
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+13,14c8,9
+<   4      first          1                        procedure                                                      1
+<   5          a          2                          ref_arg   18868352                                            
+---
+>   4      first          1                        procedure                                                       
+>   5          a          2                          ref_arg  166438288                                            
+16,19c11,14
+<   7          x          1                         variable   18869072                                            
+<   8          y          1                            array   18869504                                1           
+<   9          b          1                            array   18870080                                1           
+<  10       main          1                        procedure                                                      0
+---
+>   7          x          1                         variable  166438672                                            
+>   8          y          1                            array  166438936                                1           
+>   9          b          1                            array  166439272                                1           
+>  10       main          1                        procedure                                                       
+22c17
+<   +-[IDNode,0,"err5"]
+---
+>   +-[DUMMYnode]
+34c29
+<   | | |     | |   | +-[STRINGNode,65,"t"]
+---
+>   | | |     | |   | +-[STRINGNode,70,"'t'"]
+46c41
+<   | | |     |   |   | +-[STRINGNode,47,"v"]
+---
+>   | | |     |   |   | +-[STRINGNode,51,"'v'"]
+56c51
+<   | | |     |     |   +-[STRINGNode,44,"m"]
+---
+>   | | |     |     |   +-[STRINGNode,47,"'m'"]
+80c75
+<   | |   |       | | +-[STRINGNode,36,"c"]
+---
+>   | |   |       | | +-[STRINGNode,38,"'c'"]
+98c93
+<   | |     |       | | +-[STRINGNode,31,"b"]
+---
+>   | |     |       | | +-[STRINGNode,32,"'b'"]
+112c107
+<   | |       |       +-[STRINGNode,26,"a"]
+---
+>   | |       |       +-[STRINGNode,26,"'a'"]

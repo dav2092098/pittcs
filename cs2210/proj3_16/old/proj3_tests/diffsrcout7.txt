@@ -1,0 +1,22 @@
+6c6
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+8,11c8,11
+<   4        sum          1                         function   13146288                                           1
+<   5          i          2                          val_arg   13146336                                            
+<   6          s          2                         variable   13146624                                            
+<   7       main          1                        procedure                                                      0
+---
+>   4        sum          1                         function   11035840                                            
+>   5          i          2                          val_arg   11036016                                            
+>   6          s          2                         variable   11036288                                            
+>   7       main          1                        procedure                                                       
+14c14
+<   +-[IDNode,0,"ex7"]
+---
+>   +-[DUMMYnode]
+38c38
+<   | | |     | |   | +-[STRINGNode,35,"sum(5)="]
+---
+>   | | |     | |   | +-[STRINGNode,35,"'sum(5)='"]

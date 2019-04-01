@@ -1,0 +1,78 @@
+1,2c1,2
+< Semantic Error--line: 78, symbol f1: is an undeclared field name.
+< Semantic Error--line: 78, symbol f0: is an undeclared field name.
+---
+> Semantic Error--line: 75, symbol f1: undeclared.
+> Semantic Error--line: 75, symbol f0: undeclared.
+8c8
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+10,13c10,13
+<   4      parr0          1                            array   26159328                                1           
+<   5          y          1                         variable   26159856                                            
+<   6          x          1                         variable   26159856                                            
+<   7         f0          1                        procedure                                                      0
+---
+>   4      parr0          1                            array   29201648                                1           
+>   5          y          1                         variable   29202208                                            
+>   6          x          1                         variable   29202208                                            
+>   7         f0          1                        procedure                                                       
+15,17c15,17
+<   9         t1          1                         variable   26165088                                            
+<  10         p1          1                         variable   26165472                                            
+<  11         f1          1                        procedure                                                      0
+---
+>   9         t1          1                         variable   29207696                                            
+>  10         p1          1                         variable   29208112                                            
+>  11         f1          1                        procedure                                                       
+19,24c19,24
+<  13        p21          1                         variable   26168688                                            
+<  14        p20          1                         variable   26169024                                            
+<  15         xy          1                         variable   26169360                                            
+<  16       main          1                        procedure                                                      0
+<  17         xx          2                         variable   26169744                                            
+<  18         px          2                         variable   26170128                                            
+---
+>  13        p21          1                         variable   29211488                                            
+>  14        p20          1                         variable   29211856                                            
+>  15         xy          1                         variable   29212224                                            
+>  16       main          1                        procedure                                                       
+>  17         xx          2                         variable   29212672                                            
+>  18         px          2                         variable   29213088                                            
+27c27
+<   +-[IDNode,0,"x4"]
+---
+>   +-[DUMMYnode]
+51c51
+<   | | |     | |   | +-[STRINGNode,150,"p20.x="]
+---
+>   | | |     | |   | +-[STRINGNode,156,"'p20.x='"]
+109c109
+<   | | |     |     |   |   |   | +-[STRINGNode,138,"p20.parr0:"]
+---
+>   | | |     |     |   |   |   | +-[STRINGNode,143,"'p20.parr0:'"]
+169c169
+<   | | |     |             |   | +-[STRINGNode,127,"p21.p1.x="]
+---
+>   | | |     |             |   | +-[STRINGNode,131,"'p21.p1.x='"]
+207c207
+<   | | |     |                   | | |   |   +-[IDNode,72,"f1"]
+---
+>   | | |     |                   | | |   |   +-[IDNode,74,"f1"]
+333c333
+<     | | |     | |   | +-[STRINGNode,87,"After t1="]
+---
+>     | | |     | |   | +-[STRINGNode,90,"'After t1='"]
+377c377
+<     | | |     |         |   | +-[STRINGNode,75,"Before t1="]
+---
+>     | | |     |         |   | +-[STRINGNode,77,"'Before t1='"]
+437c437
+<       | | |     | |   | +-[STRINGNode,49,"After x="]
+---
+>       | | |     | |   | +-[STRINGNode,50,"'After x='"]
+531c531
+<       | | |     |           |   | +-[STRINGNode,38,"Before x="]
+---
+>       | | |     |           |   | +-[STRINGNode,38,"'Before x='"]

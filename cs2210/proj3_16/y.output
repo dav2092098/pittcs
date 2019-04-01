@@ -1,0 +1,2197 @@
+   0  $accept : Program $end
+
+   1  Program : PROGRAMnum IDnum SEMInum ClassDecl_rec
+
+   2  ClassDecl_rec : ClassDecl
+   3                | ClassDecl_rec ClassDecl
+
+   4  ClassDecl : CLASSnum IDnum ClassBody
+
+   5  ClassBody : LBRACEnum Decls MethodDecl_List RBRACEnum
+
+   6  MethodDecl_List : MethodDecl_z1
+   7                  | MethodDecl_List MethodDecl
+
+   8  MethodDecl_z1 :
+   9                | MethodDecl
+
+  10  MethodDecl : METHODnum Type IDnum LPARENnum Formal_Parameter_List RPARENnum Block
+
+  11  $$1 :
+
+  12  MethodDecl : METHODnum VOIDnum $$1 IDnum LPARENnum Formal_Parameter_List RPARENnum Block
+
+  13  Type : IDnum Type_rec
+  14       | INTnum Type_rec
+  15       | IDnum Type_rec DOTnum Type
+  16       | INTnum Type_rec DOTnum Type
+
+  17  Type_rec :
+  18           | LBRACnum RBRACnum
+  19           | Type_rec LBRACnum RBRACnum
+
+  20  Formal_Parameter_List :
+  21                        | Formal_Parameter_List_rec
+
+  22  Formal_Parameter_List_rec : Formal_Parameter
+  23                            | Formal_Parameter SEMInum Formal_Parameter_List_rec
+
+  24  $$2 :
+
+  25  Formal_Parameter : VALnum $$2 INTnum Formal_Parameter_rec
+
+  26  $$3 :
+
+  27  Formal_Parameter : INTnum $$3 Formal_Parameter_rec
+
+  28  Formal_Parameter_rec : IDnum
+  29                       | IDnum COMMAnum Formal_Parameter_rec
+
+  30  Block : StatementList
+  31        | Decls StatementList
+
+  32  StatementList : LBRACEnum StatementList_rec RBRACEnum
+
+  33  StatementList_rec : Statement
+  34                    | StatementList_rec SEMInum Statement
+
+  35  Statement :
+  36            | AssignmentStatement
+  37            | MethodCallStatement
+  38            | ReturnStatement
+  39            | IfStatement
+  40            | WhileStatement
+
+  41  Decls :
+  42        | DECLARATIONSnum FieldDecl_List ENDDECLARATIONSnum
+
+  43  FieldDecl_List :
+  44                 | FieldDecl
+  45                 | FieldDecl_List FieldDecl
+
+  46  FieldDecl : Type FieldDecl_rec SEMInum
+
+  47  FieldDecl_rec : FieldDecl_Id
+  48                | FieldDecl_rec COMMAnum FieldDecl_Id
+
+  49  FieldDecl_Id : VariableDeclId
+  50               | VariableDeclId EQUALnum VariableInitializer
+
+  51  VariableDeclId : IDnum
+  52                 | IDnum BracketLoop
+
+  53  BracketLoop : LBRACnum RBRACnum
+  54              | BracketLoop LBRACnum RBRACnum
+
+  55  VariableInitializer : Expression
+  56                      | ArrayInitializer
+  57                      | ArrayCreationExpression
+
+  58  ArrayInitializer : LBRACEnum ArrayInitializer_rec RBRACEnum
+
+  59  ArrayInitializer_rec : Expression
+  60                       | ArrayInitializer_rec COMMAnum Expression
+
+  61  ArrayCreationExpression : INTnum ArrayCreationExpression_rec
+
+  62  ArrayCreationExpression_rec : ArrayExpression
+  63                              | ArrayCreationExpression_rec ArrayExpression
+
+  64  ArrayExpression : LBRACnum Expression RBRACnum
+
+  65  AssignmentStatement : Variable ASSGNnum Expression
+
+  66  MethodCallStatement : Variable LPARENnum ParameterList RPARENnum
+
+  67  ParameterList :
+  68                | Expression
+  69                | Expression COMMAnum ParameterList
+
+  70  ReturnStatement : RETURNnum
+  71                  | RETURNnum Expression
+
+  72  IfStatement : IFnum Expression StatementList
+  73              | IFnum Expression StatementList ELSEnum StatementList
+  74              | IFnum Expression StatementList ELSEnum IfStatement
+
+  75  WhileStatement : WHILEnum Expression StatementList
+
+  76  Expression : SimpleExpression
+  77             | SimpleExpression LTnum SimpleExpression
+  78             | SimpleExpression LEnum SimpleExpression
+  79             | SimpleExpression EQnum SimpleExpression
+  80             | SimpleExpression NEnum SimpleExpression
+  81             | SimpleExpression GEnum SimpleExpression
+  82             | SimpleExpression GTnum SimpleExpression
+
+  83  Factor : UnsignedConstant
+  84         | Variable
+  85         | MethodCallStatement
+  86         | LPARENnum Expression RPARENnum
+  87         | NOTnum Factor
+
+  88  UnsignedConstant : ICONSTnum
+  89                   | SCONSTnum
+
+  90  SimpleExpression : Term SimpleExpression_Op_rec
+  91                   | PLUSnum Term SimpleExpression_Op_rec
+  92                   | MINUSnum Term SimpleExpression_Op_rec
+
+  93  SimpleExpression_Op_rec :
+  94                          | SimpleExpression_Op SimpleExpression_Op_rec
+
+  95  SimpleExpression_Op : PLUSnum Term
+  96                      | MINUSnum Term
+  97                      | ORnum Term
+
+  98  Term : Factor Term_Op_rec
+
+  99  Term_Op_rec :
+ 100              | Term_Op Term_Op_rec
+
+ 101  Term_Op : TIMESnum Factor
+ 102          | DIVIDEnum Factor
+ 103          | ANDnum Factor
+
+ 104  Variable : IDnum Variable_rec
+
+ 105  Variable_rec :
+ 106               | Index Variable_rec
+ 107               | Field Variable_rec
+
+ 108  Field : DOTnum IDnum
+
+ 109  Index : LBRACnum Index_rec RBRACnum
+
+ 110  Index_rec : Expression
+ 111            | Expression COMMAnum Index_rec
+
+state 0
+	$accept : . Program $end  (0)
+
+	PROGRAMnum  shift 1
+	.  error
+
+	Program  goto 2
+
+
+state 1
+	Program : PROGRAMnum . IDnum SEMInum ClassDecl_rec  (1)
+
+	IDnum  shift 3
+	.  error
+
+
+state 2
+	$accept : Program . $end  (0)
+
+	$end  accept
+
+
+state 3
+	Program : PROGRAMnum IDnum . SEMInum ClassDecl_rec  (1)
+
+	SEMInum  shift 4
+	.  error
+
+
+state 4
+	Program : PROGRAMnum IDnum SEMInum . ClassDecl_rec  (1)
+
+	CLASSnum  shift 5
+	.  error
+
+	ClassDecl_rec  goto 6
+	ClassDecl  goto 7
+
+
+state 5
+	ClassDecl : CLASSnum . IDnum ClassBody  (4)
+
+	IDnum  shift 8
+	.  error
+
+
+state 6
+	Program : PROGRAMnum IDnum SEMInum ClassDecl_rec .  (1)
+	ClassDecl_rec : ClassDecl_rec . ClassDecl  (3)
+
+	CLASSnum  shift 5
+	$end  reduce 1
+
+	ClassDecl  goto 9
+
+
+state 7
+	ClassDecl_rec : ClassDecl .  (2)
+
+	.  reduce 2
+
+
+state 8
+	ClassDecl : CLASSnum IDnum . ClassBody  (4)
+
+	LBRACEnum  shift 10
+	.  error
+
+	ClassBody  goto 11
+
+
+state 9
+	ClassDecl_rec : ClassDecl_rec ClassDecl .  (3)
+
+	.  reduce 3
+
+
+state 10
+	ClassBody : LBRACEnum . Decls MethodDecl_List RBRACEnum  (5)
+	Decls : .  (41)
+
+	DECLARATIONSnum  shift 12
+	RBRACEnum  reduce 41
+	METHODnum  reduce 41
+
+	Decls  goto 13
+
+
+state 11
+	ClassDecl : CLASSnum IDnum ClassBody .  (4)
+
+	.  reduce 4
+
+
+12: shift/reduce conflict (shift 14, reduce 43) on IDnum
+12: shift/reduce conflict (shift 15, reduce 43) on INTnum
+state 12
+	Decls : DECLARATIONSnum . FieldDecl_List ENDDECLARATIONSnum  (42)
+	FieldDecl_List : .  (43)
+
+	IDnum  shift 14
+	INTnum  shift 15
+	ENDDECLARATIONSnum  reduce 43
+
+	Type  goto 16
+	FieldDecl_List  goto 17
+	FieldDecl  goto 18
+
+
+13: shift/reduce conflict (shift 19, reduce 8) on METHODnum
+state 13
+	ClassBody : LBRACEnum Decls . MethodDecl_List RBRACEnum  (5)
+	MethodDecl_z1 : .  (8)
+
+	METHODnum  shift 19
+	RBRACEnum  reduce 8
+
+	MethodDecl_List  goto 20
+	MethodDecl_z1  goto 21
+	MethodDecl  goto 22
+
+
+14: shift/reduce conflict (shift 23, reduce 17) on LBRACnum
+state 14
+	Type : IDnum . Type_rec  (13)
+	Type : IDnum . Type_rec DOTnum Type  (15)
+	Type_rec : .  (17)
+
+	LBRACnum  shift 23
+	IDnum  reduce 17
+	DOTnum  reduce 17
+
+	Type_rec  goto 24
+
+
+15: shift/reduce conflict (shift 23, reduce 17) on LBRACnum
+state 15
+	Type : INTnum . Type_rec  (14)
+	Type : INTnum . Type_rec DOTnum Type  (16)
+	Type_rec : .  (17)
+
+	LBRACnum  shift 23
+	IDnum  reduce 17
+	DOTnum  reduce 17
+
+	Type_rec  goto 25
+
+
+state 16
+	FieldDecl : Type . FieldDecl_rec SEMInum  (46)
+
+	IDnum  shift 26
+	.  error
+
+	FieldDecl_rec  goto 27
+	FieldDecl_Id  goto 28
+	VariableDeclId  goto 29
+
+
+state 17
+	Decls : DECLARATIONSnum FieldDecl_List . ENDDECLARATIONSnum  (42)
+	FieldDecl_List : FieldDecl_List . FieldDecl  (45)
+
+	IDnum  shift 14
+	ENDDECLARATIONSnum  shift 30
+	INTnum  shift 15
+	.  error
+
+	Type  goto 16
+	FieldDecl  goto 31
+
+
+state 18
+	FieldDecl_List : FieldDecl .  (44)
+
+	.  reduce 44
+
+
+state 19
+	MethodDecl : METHODnum . Type IDnum LPARENnum Formal_Parameter_List RPARENnum Block  (10)
+	MethodDecl : METHODnum . VOIDnum $$1 IDnum LPARENnum Formal_Parameter_List RPARENnum Block  (12)
+
+	IDnum  shift 14
+	VOIDnum  shift 32
+	INTnum  shift 15
+	.  error
+
+	Type  goto 33
+
+
+state 20
+	ClassBody : LBRACEnum Decls MethodDecl_List . RBRACEnum  (5)
+	MethodDecl_List : MethodDecl_List . MethodDecl  (7)
+
+	RBRACEnum  shift 34
+	METHODnum  shift 19
+	.  error
+
+	MethodDecl  goto 35
+
+
+state 21
+	MethodDecl_List : MethodDecl_z1 .  (6)
+
+	.  reduce 6
+
+
+state 22
+	MethodDecl_z1 : MethodDecl .  (9)
+
+	.  reduce 9
+
+
+state 23
+	Type_rec : LBRACnum . RBRACnum  (18)
+
+	RBRACnum  shift 36
+	.  error
+
+
+state 24
+	Type : IDnum Type_rec .  (13)
+	Type : IDnum Type_rec . DOTnum Type  (15)
+	Type_rec : Type_rec . LBRACnum RBRACnum  (19)
+
+	LBRACnum  shift 37
+	DOTnum  shift 38
+	IDnum  reduce 13
+
+
+state 25
+	Type : INTnum Type_rec .  (14)
+	Type : INTnum Type_rec . DOTnum Type  (16)
+	Type_rec : Type_rec . LBRACnum RBRACnum  (19)
+
+	LBRACnum  shift 37
+	DOTnum  shift 39
+	IDnum  reduce 14
+
+
+state 26
+	VariableDeclId : IDnum .  (51)
+	VariableDeclId : IDnum . BracketLoop  (52)
+
+	LBRACnum  shift 40
+	SEMInum  reduce 51
+	COMMAnum  reduce 51
+	EQUALnum  reduce 51
+
+	BracketLoop  goto 41
+
+
+state 27
+	FieldDecl : Type FieldDecl_rec . SEMInum  (46)
+	FieldDecl_rec : FieldDecl_rec . COMMAnum FieldDecl_Id  (48)
+
+	SEMInum  shift 42
+	COMMAnum  shift 43
+	.  error
+
+
+state 28
+	FieldDecl_rec : FieldDecl_Id .  (47)
+
+	.  reduce 47
+
+
+state 29
+	FieldDecl_Id : VariableDeclId .  (49)
+	FieldDecl_Id : VariableDeclId . EQUALnum VariableInitializer  (50)
+
+	EQUALnum  shift 44
+	SEMInum  reduce 49
+	COMMAnum  reduce 49
+
+
+state 30
+	Decls : DECLARATIONSnum FieldDecl_List ENDDECLARATIONSnum .  (42)
+
+	.  reduce 42
+
+
+state 31
+	FieldDecl_List : FieldDecl_List FieldDecl .  (45)
+
+	.  reduce 45
+
+
+state 32
+	MethodDecl : METHODnum VOIDnum . $$1 IDnum LPARENnum Formal_Parameter_List RPARENnum Block  (12)
+	$$1 : .  (11)
+
+	.  reduce 11
+
+	$$1  goto 45
+
+
+state 33
+	MethodDecl : METHODnum Type . IDnum LPARENnum Formal_Parameter_List RPARENnum Block  (10)
+
+	IDnum  shift 46
+	.  error
+
+
+state 34
+	ClassBody : LBRACEnum Decls MethodDecl_List RBRACEnum .  (5)
+
+	.  reduce 5
+
+
+state 35
+	MethodDecl_List : MethodDecl_List MethodDecl .  (7)
+
+	.  reduce 7
+
+
+state 36
+	Type_rec : LBRACnum RBRACnum .  (18)
+
+	.  reduce 18
+
+
+state 37
+	Type_rec : Type_rec LBRACnum . RBRACnum  (19)
+
+	RBRACnum  shift 47
+	.  error
+
+
+state 38
+	Type : IDnum Type_rec DOTnum . Type  (15)
+
+	IDnum  shift 14
+	INTnum  shift 15
+	.  error
+
+	Type  goto 48
+
+
+state 39
+	Type : INTnum Type_rec DOTnum . Type  (16)
+
+	IDnum  shift 14
+	INTnum  shift 15
+	.  error
+
+	Type  goto 49
+
+
+state 40
+	BracketLoop : LBRACnum . RBRACnum  (53)
+
+	RBRACnum  shift 50
+	.  error
+
+
+state 41
+	VariableDeclId : IDnum BracketLoop .  (52)
+	BracketLoop : BracketLoop . LBRACnum RBRACnum  (54)
+
+	LBRACnum  shift 51
+	SEMInum  reduce 52
+	COMMAnum  reduce 52
+	EQUALnum  reduce 52
+
+
+state 42
+	FieldDecl : Type FieldDecl_rec SEMInum .  (46)
+
+	.  reduce 46
+
+
+state 43
+	FieldDecl_rec : FieldDecl_rec COMMAnum . FieldDecl_Id  (48)
+
+	IDnum  shift 26
+	.  error
+
+	FieldDecl_Id  goto 52
+	VariableDeclId  goto 29
+
+
+state 44
+	FieldDecl_Id : VariableDeclId EQUALnum . VariableInitializer  (50)
+
+	IDnum  shift 53
+	LBRACEnum  shift 54
+	LPARENnum  shift 55
+	INTnum  shift 56
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	VariableInitializer  goto 62
+	ArrayInitializer  goto 63
+	ArrayCreationExpression  goto 64
+	MethodCallStatement  goto 65
+	Expression  goto 66
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 45
+	MethodDecl : METHODnum VOIDnum $$1 . IDnum LPARENnum Formal_Parameter_List RPARENnum Block  (12)
+
+	IDnum  shift 72
+	.  error
+
+
+state 46
+	MethodDecl : METHODnum Type IDnum . LPARENnum Formal_Parameter_List RPARENnum Block  (10)
+
+	LPARENnum  shift 73
+	.  error
+
+
+state 47
+	Type_rec : Type_rec LBRACnum RBRACnum .  (19)
+
+	.  reduce 19
+
+
+state 48
+	Type : IDnum Type_rec DOTnum Type .  (15)
+
+	.  reduce 15
+
+
+state 49
+	Type : INTnum Type_rec DOTnum Type .  (16)
+
+	.  reduce 16
+
+
+state 50
+	BracketLoop : LBRACnum RBRACnum .  (53)
+
+	.  reduce 53
+
+
+state 51
+	BracketLoop : BracketLoop LBRACnum . RBRACnum  (54)
+
+	RBRACnum  shift 74
+	.  error
+
+
+state 52
+	FieldDecl_rec : FieldDecl_rec COMMAnum FieldDecl_Id .  (48)
+
+	.  reduce 48
+
+
+state 53
+	Variable : IDnum . Variable_rec  (104)
+	Variable_rec : .  (105)
+
+	LBRACnum  shift 75
+	DOTnum  shift 76
+	SEMInum  reduce 105
+	COMMAnum  reduce 105
+	LBRACEnum  reduce 105
+	RBRACEnum  reduce 105
+	RBRACnum  reduce 105
+	LPARENnum  reduce 105
+	RPARENnum  reduce 105
+	ASSGNnum  reduce 105
+	LTnum  reduce 105
+	LEnum  reduce 105
+	EQnum  reduce 105
+	NEnum  reduce 105
+	GEnum  reduce 105
+	GTnum  reduce 105
+	PLUSnum  reduce 105
+	MINUSnum  reduce 105
+	ORnum  reduce 105
+	TIMESnum  reduce 105
+	DIVIDEnum  reduce 105
+	ANDnum  reduce 105
+
+	Variable_rec  goto 77
+	Field  goto 78
+	Index  goto 79
+
+
+state 54
+	ArrayInitializer : LBRACEnum . ArrayInitializer_rec RBRACEnum  (58)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	ArrayInitializer_rec  goto 80
+	MethodCallStatement  goto 65
+	Expression  goto 81
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 55
+	Factor : LPARENnum . Expression RPARENnum  (86)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Expression  goto 82
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 56
+	ArrayCreationExpression : INTnum . ArrayCreationExpression_rec  (61)
+
+	LBRACnum  shift 83
+	.  error
+
+	ArrayCreationExpression_rec  goto 84
+	ArrayExpression  goto 85
+
+
+state 57
+	SimpleExpression : PLUSnum . Term SimpleExpression_Op_rec  (91)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	Term  goto 86
+	Variable  goto 71
+
+
+state 58
+	SimpleExpression : MINUSnum . Term SimpleExpression_Op_rec  (92)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	Term  goto 87
+	Variable  goto 71
+
+
+state 59
+	Factor : NOTnum . Factor  (87)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 88
+	UnsignedConstant  goto 68
+	Variable  goto 71
+
+
+state 60
+	UnsignedConstant : ICONSTnum .  (88)
+
+	.  reduce 88
+
+
+state 61
+	UnsignedConstant : SCONSTnum .  (89)
+
+	.  reduce 89
+
+
+state 62
+	FieldDecl_Id : VariableDeclId EQUALnum VariableInitializer .  (50)
+
+	.  reduce 50
+
+
+state 63
+	VariableInitializer : ArrayInitializer .  (56)
+
+	.  reduce 56
+
+
+state 64
+	VariableInitializer : ArrayCreationExpression .  (57)
+
+	.  reduce 57
+
+
+state 65
+	Factor : MethodCallStatement .  (85)
+
+	.  reduce 85
+
+
+state 66
+	VariableInitializer : Expression .  (55)
+
+	.  reduce 55
+
+
+state 67
+	Term : Factor . Term_Op_rec  (98)
+	Term_Op_rec : .  (99)
+
+	TIMESnum  shift 89
+	DIVIDEnum  shift 90
+	ANDnum  shift 91
+	SEMInum  reduce 99
+	COMMAnum  reduce 99
+	LBRACEnum  reduce 99
+	RBRACEnum  reduce 99
+	RBRACnum  reduce 99
+	RPARENnum  reduce 99
+	LTnum  reduce 99
+	LEnum  reduce 99
+	EQnum  reduce 99
+	NEnum  reduce 99
+	GEnum  reduce 99
+	GTnum  reduce 99
+	PLUSnum  reduce 99
+	MINUSnum  reduce 99
+	ORnum  reduce 99
+
+	Term_Op_rec  goto 92
+	Term_Op  goto 93
+
+
+state 68
+	Factor : UnsignedConstant .  (83)
+
+	.  reduce 83
+
+
+state 69
+	Expression : SimpleExpression .  (76)
+	Expression : SimpleExpression . LTnum SimpleExpression  (77)
+	Expression : SimpleExpression . LEnum SimpleExpression  (78)
+	Expression : SimpleExpression . EQnum SimpleExpression  (79)
+	Expression : SimpleExpression . NEnum SimpleExpression  (80)
+	Expression : SimpleExpression . GEnum SimpleExpression  (81)
+	Expression : SimpleExpression . GTnum SimpleExpression  (82)
+
+	LTnum  shift 94
+	LEnum  shift 95
+	EQnum  shift 96
+	NEnum  shift 97
+	GEnum  shift 98
+	GTnum  shift 99
+	SEMInum  reduce 76
+	COMMAnum  reduce 76
+	LBRACEnum  reduce 76
+	RBRACEnum  reduce 76
+	RBRACnum  reduce 76
+	RPARENnum  reduce 76
+
+
+state 70
+	SimpleExpression : Term . SimpleExpression_Op_rec  (90)
+	SimpleExpression_Op_rec : .  (93)
+
+	PLUSnum  shift 100
+	MINUSnum  shift 101
+	ORnum  shift 102
+	SEMInum  reduce 93
+	COMMAnum  reduce 93
+	LBRACEnum  reduce 93
+	RBRACEnum  reduce 93
+	RBRACnum  reduce 93
+	RPARENnum  reduce 93
+	LTnum  reduce 93
+	LEnum  reduce 93
+	EQnum  reduce 93
+	NEnum  reduce 93
+	GEnum  reduce 93
+	GTnum  reduce 93
+
+	SimpleExpression_Op_rec  goto 103
+	SimpleExpression_Op  goto 104
+
+
+state 71
+	MethodCallStatement : Variable . LPARENnum ParameterList RPARENnum  (66)
+	Factor : Variable .  (84)
+
+	LPARENnum  shift 105
+	SEMInum  reduce 84
+	COMMAnum  reduce 84
+	LBRACEnum  reduce 84
+	RBRACEnum  reduce 84
+	RBRACnum  reduce 84
+	RPARENnum  reduce 84
+	LTnum  reduce 84
+	LEnum  reduce 84
+	EQnum  reduce 84
+	NEnum  reduce 84
+	GEnum  reduce 84
+	GTnum  reduce 84
+	PLUSnum  reduce 84
+	MINUSnum  reduce 84
+	ORnum  reduce 84
+	TIMESnum  reduce 84
+	DIVIDEnum  reduce 84
+	ANDnum  reduce 84
+
+
+state 72
+	MethodDecl : METHODnum VOIDnum $$1 IDnum . LPARENnum Formal_Parameter_List RPARENnum Block  (12)
+
+	LPARENnum  shift 106
+	.  error
+
+
+state 73
+	MethodDecl : METHODnum Type IDnum LPARENnum . Formal_Parameter_List RPARENnum Block  (10)
+	Formal_Parameter_List : .  (20)
+
+	INTnum  shift 107
+	VALnum  shift 108
+	RPARENnum  reduce 20
+
+	Formal_Parameter_List  goto 109
+	Formal_Parameter_List_rec  goto 110
+	Formal_Parameter  goto 111
+
+
+state 74
+	BracketLoop : BracketLoop LBRACnum RBRACnum .  (54)
+
+	.  reduce 54
+
+
+state 75
+	Index : LBRACnum . Index_rec RBRACnum  (109)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Expression  goto 112
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+	Index_rec  goto 113
+
+
+state 76
+	Field : DOTnum . IDnum  (108)
+
+	IDnum  shift 114
+	.  error
+
+
+state 77
+	Variable : IDnum Variable_rec .  (104)
+
+	.  reduce 104
+
+
+state 78
+	Variable_rec : Field . Variable_rec  (107)
+	Variable_rec : .  (105)
+
+	LBRACnum  shift 75
+	DOTnum  shift 76
+	SEMInum  reduce 105
+	COMMAnum  reduce 105
+	LBRACEnum  reduce 105
+	RBRACEnum  reduce 105
+	RBRACnum  reduce 105
+	LPARENnum  reduce 105
+	RPARENnum  reduce 105
+	ASSGNnum  reduce 105
+	LTnum  reduce 105
+	LEnum  reduce 105
+	EQnum  reduce 105
+	NEnum  reduce 105
+	GEnum  reduce 105
+	GTnum  reduce 105
+	PLUSnum  reduce 105
+	MINUSnum  reduce 105
+	ORnum  reduce 105
+	TIMESnum  reduce 105
+	DIVIDEnum  reduce 105
+	ANDnum  reduce 105
+
+	Variable_rec  goto 115
+	Field  goto 78
+	Index  goto 79
+
+
+state 79
+	Variable_rec : Index . Variable_rec  (106)
+	Variable_rec : .  (105)
+
+	LBRACnum  shift 75
+	DOTnum  shift 76
+	SEMInum  reduce 105
+	COMMAnum  reduce 105
+	LBRACEnum  reduce 105
+	RBRACEnum  reduce 105
+	RBRACnum  reduce 105
+	LPARENnum  reduce 105
+	RPARENnum  reduce 105
+	ASSGNnum  reduce 105
+	LTnum  reduce 105
+	LEnum  reduce 105
+	EQnum  reduce 105
+	NEnum  reduce 105
+	GEnum  reduce 105
+	GTnum  reduce 105
+	PLUSnum  reduce 105
+	MINUSnum  reduce 105
+	ORnum  reduce 105
+	TIMESnum  reduce 105
+	DIVIDEnum  reduce 105
+	ANDnum  reduce 105
+
+	Variable_rec  goto 116
+	Field  goto 78
+	Index  goto 79
+
+
+state 80
+	ArrayInitializer : LBRACEnum ArrayInitializer_rec . RBRACEnum  (58)
+	ArrayInitializer_rec : ArrayInitializer_rec . COMMAnum Expression  (60)
+
+	COMMAnum  shift 117
+	RBRACEnum  shift 118
+	.  error
+
+
+state 81
+	ArrayInitializer_rec : Expression .  (59)
+
+	.  reduce 59
+
+
+state 82
+	Factor : LPARENnum Expression . RPARENnum  (86)
+
+	RPARENnum  shift 119
+	.  error
+
+
+state 83
+	ArrayExpression : LBRACnum . Expression RBRACnum  (64)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Expression  goto 120
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 84
+	ArrayCreationExpression : INTnum ArrayCreationExpression_rec .  (61)
+	ArrayCreationExpression_rec : ArrayCreationExpression_rec . ArrayExpression  (63)
+
+	LBRACnum  shift 83
+	SEMInum  reduce 61
+	COMMAnum  reduce 61
+
+	ArrayExpression  goto 121
+
+
+state 85
+	ArrayCreationExpression_rec : ArrayExpression .  (62)
+
+	.  reduce 62
+
+
+state 86
+	SimpleExpression : PLUSnum Term . SimpleExpression_Op_rec  (91)
+	SimpleExpression_Op_rec : .  (93)
+
+	PLUSnum  shift 100
+	MINUSnum  shift 101
+	ORnum  shift 102
+	SEMInum  reduce 93
+	COMMAnum  reduce 93
+	LBRACEnum  reduce 93
+	RBRACEnum  reduce 93
+	RBRACnum  reduce 93
+	RPARENnum  reduce 93
+	LTnum  reduce 93
+	LEnum  reduce 93
+	EQnum  reduce 93
+	NEnum  reduce 93
+	GEnum  reduce 93
+	GTnum  reduce 93
+
+	SimpleExpression_Op_rec  goto 122
+	SimpleExpression_Op  goto 104
+
+
+state 87
+	SimpleExpression : MINUSnum Term . SimpleExpression_Op_rec  (92)
+	SimpleExpression_Op_rec : .  (93)
+
+	PLUSnum  shift 100
+	MINUSnum  shift 101
+	ORnum  shift 102
+	SEMInum  reduce 93
+	COMMAnum  reduce 93
+	LBRACEnum  reduce 93
+	RBRACEnum  reduce 93
+	RBRACnum  reduce 93
+	RPARENnum  reduce 93
+	LTnum  reduce 93
+	LEnum  reduce 93
+	EQnum  reduce 93
+	NEnum  reduce 93
+	GEnum  reduce 93
+	GTnum  reduce 93
+
+	SimpleExpression_Op_rec  goto 123
+	SimpleExpression_Op  goto 104
+
+
+state 88
+	Factor : NOTnum Factor .  (87)
+
+	.  reduce 87
+
+
+state 89
+	Term_Op : TIMESnum . Factor  (101)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 124
+	UnsignedConstant  goto 68
+	Variable  goto 71
+
+
+state 90
+	Term_Op : DIVIDEnum . Factor  (102)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 125
+	UnsignedConstant  goto 68
+	Variable  goto 71
+
+
+state 91
+	Term_Op : ANDnum . Factor  (103)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 126
+	UnsignedConstant  goto 68
+	Variable  goto 71
+
+
+state 92
+	Term : Factor Term_Op_rec .  (98)
+
+	.  reduce 98
+
+
+state 93
+	Term_Op_rec : Term_Op . Term_Op_rec  (100)
+	Term_Op_rec : .  (99)
+
+	TIMESnum  shift 89
+	DIVIDEnum  shift 90
+	ANDnum  shift 91
+	SEMInum  reduce 99
+	COMMAnum  reduce 99
+	LBRACEnum  reduce 99
+	RBRACEnum  reduce 99
+	RBRACnum  reduce 99
+	RPARENnum  reduce 99
+	LTnum  reduce 99
+	LEnum  reduce 99
+	EQnum  reduce 99
+	NEnum  reduce 99
+	GEnum  reduce 99
+	GTnum  reduce 99
+	PLUSnum  reduce 99
+	MINUSnum  reduce 99
+	ORnum  reduce 99
+
+	Term_Op_rec  goto 127
+	Term_Op  goto 93
+
+
+state 94
+	Expression : SimpleExpression LTnum . SimpleExpression  (77)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 128
+	Term  goto 70
+	Variable  goto 71
+
+
+state 95
+	Expression : SimpleExpression LEnum . SimpleExpression  (78)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 129
+	Term  goto 70
+	Variable  goto 71
+
+
+state 96
+	Expression : SimpleExpression EQnum . SimpleExpression  (79)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 130
+	Term  goto 70
+	Variable  goto 71
+
+
+state 97
+	Expression : SimpleExpression NEnum . SimpleExpression  (80)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 131
+	Term  goto 70
+	Variable  goto 71
+
+
+state 98
+	Expression : SimpleExpression GEnum . SimpleExpression  (81)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 132
+	Term  goto 70
+	Variable  goto 71
+
+
+state 99
+	Expression : SimpleExpression GTnum . SimpleExpression  (82)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 133
+	Term  goto 70
+	Variable  goto 71
+
+
+state 100
+	SimpleExpression_Op : PLUSnum . Term  (95)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	Term  goto 134
+	Variable  goto 71
+
+
+state 101
+	SimpleExpression_Op : MINUSnum . Term  (96)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	Term  goto 135
+	Variable  goto 71
+
+
+state 102
+	SimpleExpression_Op : ORnum . Term  (97)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	Term  goto 136
+	Variable  goto 71
+
+
+state 103
+	SimpleExpression : Term SimpleExpression_Op_rec .  (90)
+
+	.  reduce 90
+
+
+state 104
+	SimpleExpression_Op_rec : SimpleExpression_Op . SimpleExpression_Op_rec  (94)
+	SimpleExpression_Op_rec : .  (93)
+
+	PLUSnum  shift 100
+	MINUSnum  shift 101
+	ORnum  shift 102
+	SEMInum  reduce 93
+	COMMAnum  reduce 93
+	LBRACEnum  reduce 93
+	RBRACEnum  reduce 93
+	RBRACnum  reduce 93
+	RPARENnum  reduce 93
+	LTnum  reduce 93
+	LEnum  reduce 93
+	EQnum  reduce 93
+	NEnum  reduce 93
+	GEnum  reduce 93
+	GTnum  reduce 93
+
+	SimpleExpression_Op_rec  goto 137
+	SimpleExpression_Op  goto 104
+
+
+state 105
+	MethodCallStatement : Variable LPARENnum . ParameterList RPARENnum  (66)
+	ParameterList : .  (67)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	RPARENnum  reduce 67
+
+	MethodCallStatement  goto 65
+	ParameterList  goto 138
+	Expression  goto 139
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 106
+	MethodDecl : METHODnum VOIDnum $$1 IDnum LPARENnum . Formal_Parameter_List RPARENnum Block  (12)
+	Formal_Parameter_List : .  (20)
+
+	INTnum  shift 107
+	VALnum  shift 108
+	RPARENnum  reduce 20
+
+	Formal_Parameter_List  goto 140
+	Formal_Parameter_List_rec  goto 110
+	Formal_Parameter  goto 111
+
+
+state 107
+	Formal_Parameter : INTnum . $$3 Formal_Parameter_rec  (27)
+	$$3 : .  (26)
+
+	.  reduce 26
+
+	$$3  goto 141
+
+
+state 108
+	Formal_Parameter : VALnum . $$2 INTnum Formal_Parameter_rec  (25)
+	$$2 : .  (24)
+
+	.  reduce 24
+
+	$$2  goto 142
+
+
+state 109
+	MethodDecl : METHODnum Type IDnum LPARENnum Formal_Parameter_List . RPARENnum Block  (10)
+
+	RPARENnum  shift 143
+	.  error
+
+
+state 110
+	Formal_Parameter_List : Formal_Parameter_List_rec .  (21)
+
+	.  reduce 21
+
+
+state 111
+	Formal_Parameter_List_rec : Formal_Parameter .  (22)
+	Formal_Parameter_List_rec : Formal_Parameter . SEMInum Formal_Parameter_List_rec  (23)
+
+	SEMInum  shift 144
+	RPARENnum  reduce 22
+
+
+state 112
+	Index_rec : Expression .  (110)
+	Index_rec : Expression . COMMAnum Index_rec  (111)
+
+	COMMAnum  shift 145
+	RBRACnum  reduce 110
+
+
+state 113
+	Index : LBRACnum Index_rec . RBRACnum  (109)
+
+	RBRACnum  shift 146
+	.  error
+
+
+state 114
+	Field : DOTnum IDnum .  (108)
+
+	.  reduce 108
+
+
+state 115
+	Variable_rec : Field Variable_rec .  (107)
+
+	.  reduce 107
+
+
+state 116
+	Variable_rec : Index Variable_rec .  (106)
+
+	.  reduce 106
+
+
+state 117
+	ArrayInitializer_rec : ArrayInitializer_rec COMMAnum . Expression  (60)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Expression  goto 147
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 118
+	ArrayInitializer : LBRACEnum ArrayInitializer_rec RBRACEnum .  (58)
+
+	.  reduce 58
+
+
+state 119
+	Factor : LPARENnum Expression RPARENnum .  (86)
+
+	.  reduce 86
+
+
+state 120
+	ArrayExpression : LBRACnum Expression . RBRACnum  (64)
+
+	RBRACnum  shift 148
+	.  error
+
+
+state 121
+	ArrayCreationExpression_rec : ArrayCreationExpression_rec ArrayExpression .  (63)
+
+	.  reduce 63
+
+
+state 122
+	SimpleExpression : PLUSnum Term SimpleExpression_Op_rec .  (91)
+
+	.  reduce 91
+
+
+state 123
+	SimpleExpression : MINUSnum Term SimpleExpression_Op_rec .  (92)
+
+	.  reduce 92
+
+
+state 124
+	Term_Op : TIMESnum Factor .  (101)
+
+	.  reduce 101
+
+
+state 125
+	Term_Op : DIVIDEnum Factor .  (102)
+
+	.  reduce 102
+
+
+state 126
+	Term_Op : ANDnum Factor .  (103)
+
+	.  reduce 103
+
+
+state 127
+	Term_Op_rec : Term_Op Term_Op_rec .  (100)
+
+	.  reduce 100
+
+
+state 128
+	Expression : SimpleExpression LTnum SimpleExpression .  (77)
+
+	.  reduce 77
+
+
+state 129
+	Expression : SimpleExpression LEnum SimpleExpression .  (78)
+
+	.  reduce 78
+
+
+state 130
+	Expression : SimpleExpression EQnum SimpleExpression .  (79)
+
+	.  reduce 79
+
+
+state 131
+	Expression : SimpleExpression NEnum SimpleExpression .  (80)
+
+	.  reduce 80
+
+
+state 132
+	Expression : SimpleExpression GEnum SimpleExpression .  (81)
+
+	.  reduce 81
+
+
+state 133
+	Expression : SimpleExpression GTnum SimpleExpression .  (82)
+
+	.  reduce 82
+
+
+state 134
+	SimpleExpression_Op : PLUSnum Term .  (95)
+
+	.  reduce 95
+
+
+state 135
+	SimpleExpression_Op : MINUSnum Term .  (96)
+
+	.  reduce 96
+
+
+state 136
+	SimpleExpression_Op : ORnum Term .  (97)
+
+	.  reduce 97
+
+
+state 137
+	SimpleExpression_Op_rec : SimpleExpression_Op SimpleExpression_Op_rec .  (94)
+
+	.  reduce 94
+
+
+state 138
+	MethodCallStatement : Variable LPARENnum ParameterList . RPARENnum  (66)
+
+	RPARENnum  shift 149
+	.  error
+
+
+state 139
+	ParameterList : Expression .  (68)
+	ParameterList : Expression . COMMAnum ParameterList  (69)
+
+	COMMAnum  shift 150
+	RPARENnum  reduce 68
+
+
+state 140
+	MethodDecl : METHODnum VOIDnum $$1 IDnum LPARENnum Formal_Parameter_List . RPARENnum Block  (12)
+
+	RPARENnum  shift 151
+	.  error
+
+
+state 141
+	Formal_Parameter : INTnum $$3 . Formal_Parameter_rec  (27)
+
+	IDnum  shift 152
+	.  error
+
+	Formal_Parameter_rec  goto 153
+
+
+state 142
+	Formal_Parameter : VALnum $$2 . INTnum Formal_Parameter_rec  (25)
+
+	INTnum  shift 154
+	.  error
+
+
+143: shift/reduce conflict (shift 155, reduce 41) on LBRACEnum
+state 143
+	MethodDecl : METHODnum Type IDnum LPARENnum Formal_Parameter_List RPARENnum . Block  (10)
+	Decls : .  (41)
+
+	DECLARATIONSnum  shift 12
+	LBRACEnum  shift 155
+
+	Block  goto 156
+	StatementList  goto 157
+	Decls  goto 158
+
+
+state 144
+	Formal_Parameter_List_rec : Formal_Parameter SEMInum . Formal_Parameter_List_rec  (23)
+
+	INTnum  shift 107
+	VALnum  shift 108
+	.  error
+
+	Formal_Parameter_List_rec  goto 159
+	Formal_Parameter  goto 111
+
+
+state 145
+	Index_rec : Expression COMMAnum . Index_rec  (111)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Expression  goto 112
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+	Index_rec  goto 160
+
+
+state 146
+	Index : LBRACnum Index_rec RBRACnum .  (109)
+
+	.  reduce 109
+
+
+state 147
+	ArrayInitializer_rec : ArrayInitializer_rec COMMAnum Expression .  (60)
+
+	.  reduce 60
+
+
+state 148
+	ArrayExpression : LBRACnum Expression RBRACnum .  (64)
+
+	.  reduce 64
+
+
+state 149
+	MethodCallStatement : Variable LPARENnum ParameterList RPARENnum .  (66)
+
+	.  reduce 66
+
+
+state 150
+	ParameterList : Expression COMMAnum . ParameterList  (69)
+	ParameterList : .  (67)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	RPARENnum  reduce 67
+
+	MethodCallStatement  goto 65
+	ParameterList  goto 161
+	Expression  goto 139
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+151: shift/reduce conflict (shift 155, reduce 41) on LBRACEnum
+state 151
+	MethodDecl : METHODnum VOIDnum $$1 IDnum LPARENnum Formal_Parameter_List RPARENnum . Block  (12)
+	Decls : .  (41)
+
+	DECLARATIONSnum  shift 12
+	LBRACEnum  shift 155
+
+	Block  goto 162
+	StatementList  goto 157
+	Decls  goto 158
+
+
+state 152
+	Formal_Parameter_rec : IDnum .  (28)
+	Formal_Parameter_rec : IDnum . COMMAnum Formal_Parameter_rec  (29)
+
+	COMMAnum  shift 163
+	SEMInum  reduce 28
+	RPARENnum  reduce 28
+
+
+state 153
+	Formal_Parameter : INTnum $$3 Formal_Parameter_rec .  (27)
+
+	.  reduce 27
+
+
+state 154
+	Formal_Parameter : VALnum $$2 INTnum . Formal_Parameter_rec  (25)
+
+	IDnum  shift 152
+	.  error
+
+	Formal_Parameter_rec  goto 164
+
+
+state 155
+	StatementList : LBRACEnum . StatementList_rec RBRACEnum  (32)
+	Statement : .  (35)
+
+	IDnum  shift 53
+	RETURNnum  shift 165
+	IFnum  shift 166
+	WHILEnum  shift 167
+	SEMInum  reduce 35
+	RBRACEnum  reduce 35
+
+	StatementList_rec  goto 168
+	Statement  goto 169
+	AssignmentStatement  goto 170
+	MethodCallStatement  goto 171
+	ReturnStatement  goto 172
+	IfStatement  goto 173
+	WhileStatement  goto 174
+	Variable  goto 175
+
+
+state 156
+	MethodDecl : METHODnum Type IDnum LPARENnum Formal_Parameter_List RPARENnum Block .  (10)
+
+	.  reduce 10
+
+
+state 157
+	Block : StatementList .  (30)
+
+	.  reduce 30
+
+
+state 158
+	Block : Decls . StatementList  (31)
+
+	LBRACEnum  shift 155
+	.  error
+
+	StatementList  goto 176
+
+
+state 159
+	Formal_Parameter_List_rec : Formal_Parameter SEMInum Formal_Parameter_List_rec .  (23)
+
+	.  reduce 23
+
+
+state 160
+	Index_rec : Expression COMMAnum Index_rec .  (111)
+
+	.  reduce 111
+
+
+state 161
+	ParameterList : Expression COMMAnum ParameterList .  (69)
+
+	.  reduce 69
+
+
+state 162
+	MethodDecl : METHODnum VOIDnum $$1 IDnum LPARENnum Formal_Parameter_List RPARENnum Block .  (12)
+
+	.  reduce 12
+
+
+state 163
+	Formal_Parameter_rec : IDnum COMMAnum . Formal_Parameter_rec  (29)
+
+	IDnum  shift 152
+	.  error
+
+	Formal_Parameter_rec  goto 177
+
+
+state 164
+	Formal_Parameter : VALnum $$2 INTnum Formal_Parameter_rec .  (25)
+
+	.  reduce 25
+
+
+state 165
+	ReturnStatement : RETURNnum .  (70)
+	ReturnStatement : RETURNnum . Expression  (71)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	SEMInum  reduce 70
+	RBRACEnum  reduce 70
+
+	MethodCallStatement  goto 65
+	Expression  goto 178
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 166
+	IfStatement : IFnum . Expression StatementList  (72)
+	IfStatement : IFnum . Expression StatementList ELSEnum StatementList  (73)
+	IfStatement : IFnum . Expression StatementList ELSEnum IfStatement  (74)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Expression  goto 179
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 167
+	WhileStatement : WHILEnum . Expression StatementList  (75)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Expression  goto 180
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 168
+	StatementList : LBRACEnum StatementList_rec . RBRACEnum  (32)
+	StatementList_rec : StatementList_rec . SEMInum Statement  (34)
+
+	SEMInum  shift 181
+	RBRACEnum  shift 182
+	.  error
+
+
+state 169
+	StatementList_rec : Statement .  (33)
+
+	.  reduce 33
+
+
+state 170
+	Statement : AssignmentStatement .  (36)
+
+	.  reduce 36
+
+
+state 171
+	Statement : MethodCallStatement .  (37)
+
+	.  reduce 37
+
+
+state 172
+	Statement : ReturnStatement .  (38)
+
+	.  reduce 38
+
+
+state 173
+	Statement : IfStatement .  (39)
+
+	.  reduce 39
+
+
+state 174
+	Statement : WhileStatement .  (40)
+
+	.  reduce 40
+
+
+state 175
+	AssignmentStatement : Variable . ASSGNnum Expression  (65)
+	MethodCallStatement : Variable . LPARENnum ParameterList RPARENnum  (66)
+
+	LPARENnum  shift 105
+	ASSGNnum  shift 183
+	.  error
+
+
+state 176
+	Block : Decls StatementList .  (31)
+
+	.  reduce 31
+
+
+state 177
+	Formal_Parameter_rec : IDnum COMMAnum Formal_Parameter_rec .  (29)
+
+	.  reduce 29
+
+
+state 178
+	ReturnStatement : RETURNnum Expression .  (71)
+
+	.  reduce 71
+
+
+state 179
+	IfStatement : IFnum Expression . StatementList  (72)
+	IfStatement : IFnum Expression . StatementList ELSEnum StatementList  (73)
+	IfStatement : IFnum Expression . StatementList ELSEnum IfStatement  (74)
+
+	LBRACEnum  shift 155
+	.  error
+
+	StatementList  goto 184
+
+
+state 180
+	WhileStatement : WHILEnum Expression . StatementList  (75)
+
+	LBRACEnum  shift 155
+	.  error
+
+	StatementList  goto 185
+
+
+state 181
+	StatementList_rec : StatementList_rec SEMInum . Statement  (34)
+	Statement : .  (35)
+
+	IDnum  shift 53
+	RETURNnum  shift 165
+	IFnum  shift 166
+	WHILEnum  shift 167
+	SEMInum  reduce 35
+	RBRACEnum  reduce 35
+
+	Statement  goto 186
+	AssignmentStatement  goto 170
+	MethodCallStatement  goto 171
+	ReturnStatement  goto 172
+	IfStatement  goto 173
+	WhileStatement  goto 174
+	Variable  goto 175
+
+
+state 182
+	StatementList : LBRACEnum StatementList_rec RBRACEnum .  (32)
+
+	.  reduce 32
+
+
+state 183
+	AssignmentStatement : Variable ASSGNnum . Expression  (65)
+
+	IDnum  shift 53
+	LPARENnum  shift 55
+	PLUSnum  shift 57
+	MINUSnum  shift 58
+	NOTnum  shift 59
+	ICONSTnum  shift 60
+	SCONSTnum  shift 61
+	.  error
+
+	MethodCallStatement  goto 65
+	Expression  goto 187
+	Factor  goto 67
+	UnsignedConstant  goto 68
+	SimpleExpression  goto 69
+	Term  goto 70
+	Variable  goto 71
+
+
+state 184
+	IfStatement : IFnum Expression StatementList .  (72)
+	IfStatement : IFnum Expression StatementList . ELSEnum StatementList  (73)
+	IfStatement : IFnum Expression StatementList . ELSEnum IfStatement  (74)
+
+	ELSEnum  shift 188
+	SEMInum  reduce 72
+	RBRACEnum  reduce 72
+
+
+state 185
+	WhileStatement : WHILEnum Expression StatementList .  (75)
+
+	.  reduce 75
+
+
+state 186
+	StatementList_rec : StatementList_rec SEMInum Statement .  (34)
+
+	.  reduce 34
+
+
+state 187
+	AssignmentStatement : Variable ASSGNnum Expression .  (65)
+
+	.  reduce 65
+
+
+state 188
+	IfStatement : IFnum Expression StatementList ELSEnum . StatementList  (73)
+	IfStatement : IFnum Expression StatementList ELSEnum . IfStatement  (74)
+
+	LBRACEnum  shift 155
+	IFnum  shift 166
+	.  error
+
+	StatementList  goto 189
+	IfStatement  goto 190
+
+
+state 189
+	IfStatement : IFnum Expression StatementList ELSEnum StatementList .  (73)
+
+	.  reduce 73
+
+
+state 190
+	IfStatement : IFnum Expression StatementList ELSEnum IfStatement .  (74)
+
+	.  reduce 74
+
+
+State 12 contains 2 shift/reduce conflicts.
+State 13 contains 1 shift/reduce conflict.
+State 14 contains 1 shift/reduce conflict.
+State 15 contains 1 shift/reduce conflict.
+State 143 contains 1 shift/reduce conflict.
+State 151 contains 1 shift/reduce conflict.
+
+
+41 terminals, 54 nonterminals
+112 grammar rules, 191 states

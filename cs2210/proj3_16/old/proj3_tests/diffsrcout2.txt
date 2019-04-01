@@ -1,0 +1,28 @@
+6c6
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+8,10c8,10
+<   4     length          1                         variable    8169648                                            
+<   5      width          1                         variable    8169648                                            
+<   6    getarea          1                         function    8170272                                           0
+---
+>   4     length          1                         variable   16209088                                            
+>   5      width          1                         variable   16209088                                            
+>   6    getarea          1                         function   16209776                                            
+12,14c12,14
+<   8        len          1                         variable    8172528                                            
+<   9       main          1                        procedure                                                      0
+<  10       area          2                         variable    8172912                                            
+---
+>   8        len          1                         variable   16212192                                            
+>   9       main          1                        procedure                                                       
+>  10       area          2                         variable   16212640                                            
+17c17
+<   +-[IDNode,0,"ex2"]
+---
+>   +-[DUMMYnode]
+193c193
+<     | | |     |     |   | +-[STRINGNode,45,"test case 2:  "]
+---
+>     | | |     |     |   | +-[STRINGNode,45,"'test case 2:  '"]

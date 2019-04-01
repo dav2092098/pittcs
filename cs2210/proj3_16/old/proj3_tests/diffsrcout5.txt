@@ -1,0 +1,14 @@
+6c6
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+8,9c8,9
+<   4       func          1                         function   23447728                                           0
+<   5       main          1                        procedure                                                      0
+---
+>   4       func          1                         function   15746240                                            
+>   5       main          1                        procedure                                                       
+12c12
+<   +-[IDNode,0,"ex5"]
+---
+>   +-[DUMMYnode]

@@ -1,0 +1,58 @@
+#!/bin/bash
+
+../seman < ./err1 > ./myerr1.txt
+../seman < ./err2 > ./myerr2.txt
+../seman < ./err3 > ./myerr3.txt
+../seman < ./err4 > ./myerr4.txt
+../seman < ./err5 > ./myerr5.txt
+
+../seman < ./err1.txt > ./myZhangErr1.txt
+../seman < ./err2.txt > ./myZhangErr2.txt
+../seman < ./err3.txt > ./myZhangErr3.txt
+../seman < ./err4.txt > ./myZhangErr4.txt
+../seman < ./err5.txt > ./myZhangErr5.txt
+
+../seman < ./err6.txt > ./myerr6.txt
+./seman.linux < ./err6.txt > ./ZhangErr6.txt
+
+./seman.linux < ./err1.txt > ./ZhangErr1.txt
+./seman.linux < ./err2.txt > ./ZhangErr2.txt
+./seman.linux < ./err3.txt > ./ZhangErr3.txt
+./seman.linux < ./err4.txt > ./ZhangErr4.txt
+./seman.linux < ./err5.txt > ./ZhangErr5.txt
+
+../seman < ./src1 > ./mysrc1.txt
+../seman < ./src2 > ./mysrc2.txt
+../seman < ./src3 > ./mysrc3.txt
+../seman < ./src4 > ./mysrc4.txt
+../seman < ./src5 > ./mysrc5.txt
+../seman < ./src6 > ./mysrc6.txt
+../seman < ./src7 > ./mysrc7.txt
+../seman < ./src8 > ./mysrc8.txt
+../seman < ./src9 > ./mysrc9.txt
+../seman < ./src10 > ./mysrc10.txt
+
+diff ./myerr1.txt ./err1.out > differrout1.txt
+diff ./myerr2.txt ./err2.out > differrout2.txt
+diff ./myerr3.txt ./err3.out > differrout3.txt
+diff ./myerr4.txt ./err4.out > differrout4.txt
+diff ./myerr5.txt ./err5.out > differrout5.txt
+
+diff ./myZhangErr1.txt ./ZhangErr1.txt > diffZerrout1.txt
+diff ./myZhangErr2.txt ./ZhangErr2.txt > diffZerrout2.txt
+diff ./myZhangErr3.txt ./ZhangErr3.txt > diffZerrout3.txt
+diff ./myZhangErr4.txt ./ZhangErr4.txt > diffZerrout4.txt
+diff ./myZhangErr5.txt ./ZhangErr5.txt > diffZerrout5.txt
+
+diff ./myerr6.txt ./ZhangErr6.txt > diffZerrout6.txt
+
+diff ./mysrc1.txt ./src1.out > diffsrcout1.txt
+diff ./mysrc2.txt ./src2.out > diffsrcout2.txt
+diff ./mysrc3.txt ./src3.out > diffsrcout3.txt
+diff ./mysrc4.txt ./src4.out > diffsrcout4.txt
+diff ./mysrc5.txt ./src5.out > diffsrcout5.txt
+diff ./mysrc6.txt ./src6.out > diffsrcout6.txt
+diff ./mysrc7.txt ./src7.out > diffsrcout7.txt
+diff ./mysrc8.txt ./src8.out > diffsrcout8.txt
+diff ./mysrc9.txt ./src9.out > diffsrcout9.txt
+diff ./mysrc10.txt ./src10.out > diffsrcout10.txt

@@ -1,0 +1,16 @@
+1c1
+< Semantic Error--line: 22, main() method already declared.
+---
+> Semantic Error--line: 21, symbol main: redeclared.
+7,9c7,9
+<   2          y          1                         variable   39643312                                            
+<   3          x          1                         variable   39643312                                            
+<   4       main          1                        procedure                                                      0
+---
+>   2          y          1                         variable   29365440                                            
+>   3          x          1                         variable   29365440                                            
+>   4       main          1                        procedure                                                       
+13c13
+<   +-[IDNode,0,"err5"]
+---
+>   +-[DUMMYnode]

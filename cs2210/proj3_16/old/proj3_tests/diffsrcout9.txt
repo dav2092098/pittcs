@@ -1,0 +1,68 @@
+6c6
+<   2    println          1                   yes  procedure                                                      1
+---
+>   2    println          1                   yes  procedure                                                       
+8,11c8,11
+<   4      parr0          1                            array   39729376                                1           
+<   5          y          1                         variable   39729904                                            
+<   6          x          1                         variable   39729904                                            
+<   7         f0          1                        procedure                                                      0
+---
+>   4      parr0          1                            array   24769776                                1           
+>   5          y          1                         variable   24770336                                            
+>   6          x          1                         variable   24770336                                            
+>   7         f0          1                        procedure                                                       
+13,15c13,15
+<   9         t1          1                         variable   39735136                                            
+<  10         p1          1                         variable   39735520                                            
+<  11         f1          1                        procedure                                                      0
+---
+>   9         t1          1                         variable   24775824                                            
+>  10         p1          1                         variable   24776240                                            
+>  11         f1          1                        procedure                                                       
+17,22c17,22
+<  13        p21          1                         variable   39738736                                            
+<  14        p20          1                         variable   39739072                                            
+<  15         xy          1                         variable   39739408                                            
+<  16       main          1                        procedure                                                      0
+<  17         xx          2                         variable   39739792                                            
+<  18         px          2                         variable   39740176                                            
+---
+>  13        p21          1                         variable   24779616                                            
+>  14        p20          1                         variable   24779984                                            
+>  15         xy          1                         variable   24780352                                            
+>  16       main          1                        procedure                                                       
+>  17         xx          2                         variable   24780800                                            
+>  18         px          2                         variable   24781216                                            
+25c25
+<   +-[IDNode,0,"x4"]
+---
+>   +-[DUMMYnode]
+49c49
+<   | | |     | |   | +-[STRINGNode,150,"p20.x="]
+---
+>   | | |     | |   | +-[STRINGNode,156,"'p20.x='"]
+107c107
+<   | | |     |     |   |   |   | +-[STRINGNode,138,"p20.parr0:"]
+---
+>   | | |     |     |   |   |   | +-[STRINGNode,143,"'p20.parr0:'"]
+167c167
+<   | | |     |             |   | +-[STRINGNode,127,"p21.p1.x="]
+---
+>   | | |     |             |   | +-[STRINGNode,131,"'p21.p1.x='"]
+331c331
+<     | | |     | |   | +-[STRINGNode,87,"After t1="]
+---
+>     | | |     | |   | +-[STRINGNode,90,"'After t1='"]
+375c375
+<     | | |     |         |   | +-[STRINGNode,75,"Before t1="]
+---
+>     | | |     |         |   | +-[STRINGNode,77,"'Before t1='"]
+435c435
+<       | | |     | |   | +-[STRINGNode,49,"After x="]
+---
+>       | | |     | |   | +-[STRINGNode,50,"'After x='"]
+529c529
+<       | | |     |           |   | +-[STRINGNode,38,"Before x="]
+---
+>       | | |     |           |   | +-[STRINGNode,38,"'Before x='"]

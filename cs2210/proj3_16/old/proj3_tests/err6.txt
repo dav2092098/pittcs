@@ -1,0 +1,23 @@
+/* Use of String constant outside of output */
+program err5;
+class one
+{
+	method void first(int a) {
+	}
+}
+class myTest
+{
+	declarations
+		int x = 'a';
+		int[] y = int ['b'];
+		int[] b = {4, 'c'};
+	enddeclarations
+
+	method void main()
+	{
+		x := 'm';
+		one.first('v');
+		system.println('t');
+		return x;
+	}
+}

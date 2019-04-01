@@ -1,0 +1,30 @@
+7c7
+<   3    println          1                   yes  procedure                                                      1
+---
+>   3    println          1                   yes  procedure                                                       
+9,11c9,11
+<   5       main          1                        procedure                                                      0
+<   6          x          2                         variable   31668448                                            
+<   7          i          2                         variable   31668784                                            
+---
+>   5       main          1                        procedure                                                       
+>   6          x          2                         variable   29603088                                            
+>   7          i          2                         variable   29603456                                            
+14c14
+<  10      hahah          1                         function   31673200                                           0
+---
+>  10      hahah          1                         function   29608144                                            
+17c17
+<   +-[IDNode,0,"p6"]
+---
+>   +-[DUMMYnode]
+35c35,37
+<   | |   +-[DUMMYnode]
+---
+>   | |   | +-[DUMMYnode]
+>   | |   +-[BodyOp]
+>   | |     +-[DUMMYnode]
+59c61
+<       | | |     | |   | +-[STRINGNode,39,"i="]
+---
+>       | | |     | |   | +-[STRINGNode,39,"'i='"]

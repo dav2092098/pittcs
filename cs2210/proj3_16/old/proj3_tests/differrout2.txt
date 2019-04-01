@@ -1,0 +1,16 @@
+1c1
+< Semantic Error--line: 13, symbol z: undeclared.
+---
+> Semantic Error--line: 12, symbol z: undeclared.
+7,9c7,9
+<   2          y          1                         variable   12646576                                            
+<   3          x          1                         variable   12646576                                            
+<   4       main          1                        procedure                                                      0
+---
+>   2          y          1                         variable   10855616                                            
+>   3          x          1                         variable   10855616                                            
+>   4       main          1                        procedure                                                       
+12c12
+<   +-[IDNode,0,"err2"]
+---
+>   +-[DUMMYnode]

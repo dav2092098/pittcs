@@ -1,0 +1,24 @@
+1,2c1,2
+< Semantic Error--line: 21, symbol x: redeclared.
+< Semantic Error--line: 21, symbol m: redeclared.
+---
+> Semantic Error--line: 20, symbol x: redeclared.
+> Semantic Error--line: 20, symbol m: redeclared.
+8,13c8,13
+<   2          y          1                         variable   28637360                                            
+<   3          x          1                         variable   28637360                                            
+<   4       main          1                        procedure                                                      0
+<   5       func          1                         function   28638560                                           2
+<   6          m          2                          ref_arg   28638800                                            
+<   7          n          2                          ref_arg   28638608                                            
+---
+>   2          y          1                         variable  167060832                                            
+>   3          x          1                         variable  167060832                                            
+>   4       main          1                        procedure                                                       
+>   5       func          1                         function  167061504                                            
+>   6          m          2                          ref_arg  167061600                                            
+>   7          n          2                          ref_arg  167061696                                            
+16c16
+<   +-[IDNode,0,"err1"]
+---
+>   +-[DUMMYnode]
