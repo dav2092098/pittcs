@@ -140,9 +140,6 @@ int type, action, id, seq;
 		case MULTI_MAIN:
 			printf("main() method already declared.\n");
 			break;
-		case STRING_MIS:
-			printf("symbol %s: is String Contstant outside of an output function.\n", getstring(id));
-			break;
 		default:
 			printf("error type: %d.\n", type);
 	}
