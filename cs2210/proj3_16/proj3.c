@@ -4,25 +4,25 @@
 #include <stdlib.h> 
 
 int st[ST_SIZE];
+
 attr_type attrarray[ATTR_SIZE];
 
 int stack_top = 0;	     /* stack top counter */
 int st_top = 0;		     /* symbol table top counter */
 int nesting = 0;	     /* nesting level counter */
 int attr_top = 0;	     /* attribute array counter */
+int main_def = 0;	     /* main definition counter */
 
 extern int yyline;
-extern char string_table[];      /* string table in table.c */
-
-int mainDef = 0;
+extern char string_table[];      
 
 void
 STInit()
 {
-	int nStrInd, nSymInd;  /* string table index */
+	int nStrInd, nSymInd;  
 
-	nStrInd = search("system"); /* return string index of string "system" */
-	if ( nStrInd != -1 )         /* "system" is stored in string table */
+	nStrInd = search("system"); 
+	if ( nStrInd != -1 )         
 	{
 		nSymInd = InsertEntry(nStrInd);
 		SetAttr(nSymInd, PREDE_ATTR, true);
@@ -122,8 +122,7 @@ int type, action, id, seq;
 			printf("symbol %s: illegal usage of a field name. \n", getname(id));
 			break;
 		case INDX_MIS:
-			printf("symbol %s: has incorrect number of dimensions.\n", getname(id));
-			/*printf("%s index has incorrect number of dimensions.\n", seq_str(seq));*/
+			printf("symbol %s: has incorrect number of dimensions.\n", getname(id));			
 			break;
 		case FIELD_MIS:
 			printf("symbol %s: is an undeclared field name.\n", getname(id));
@@ -157,13 +156,13 @@ InsertEntry(id)
 int id;
 {
 	if (!strncmp(getname(id), "main", 4)) {
-		if (mainDef == 1) {
+		if (main_def == 1) {
 			error_msg(MULTI_MAIN, CONTINUE, 0, 0);
 			return -1;
 		}
-		mainDef = 1;
+		main_def = 1;
 	}
-
+	
 	if (LookUpHere(id))
 	{
 		error_msg(REDECLARATION, CONTINUE, id, 0);
@@ -201,36 +200,16 @@ int id;
 	return 0;
 }
 
-int LookUpField(class, field)
-int class;
-int field;
-{
-	int i; 
-	for(i += class + 1; i <= st_top; i++) {
-		if ((int)GetAttr(i, NAME_ATTR) == field) {
-			if ((int)GetAttr(i, NEST_ATTR) == 1) { 
-				return (i);
-			}	
-		}
-		if ((int)GetAttr(i, KIND_ATTR) == CLASS) {
-			break;
-		}
-	}
-	error_msg(FIELD_MIS, CONTINUE, field, 0);
-	Push(false, field, 0, true);
-	return 0;
-}
-
 int findClass(id)
 int id;
 {
 	int toReturn = -1;
-	if (IsAttr(id, KIND_ATTR)) {
+		if (IsAttr(id, KIND_ATTR)) {
 		if ((int)GetAttr(id, KIND_ATTR) == CLASS) {
 			toReturn = id;
 		} else {
 			if (IsAttr(id, TYPE_ATTR)) {
-				tree type = (tree)GetAttr(id, TYPE_ATTR);
+				tree type = (tree)GetAttr(id, TYPE_ATTR);				
 				type = LeftChild(type);
 				if (NodeKind(type) == STNode) {
 					int index = IntVal(type);
@@ -260,11 +239,32 @@ int id;
 	return (0);
 }
 
+int LookUpField(class, field)
+int class;
+int field;
+{
+	int i;
+	for(i += class + 1; i <= st_top; i++) {
+		
+		if ((int)GetAttr(i, NAME_ATTR) == field) {
+			if ((int)GetAttr(i, NEST_ATTR) == 1) { 				
+				return (i);
+			}	
+		}
+		if ((int)GetAttr(i, KIND_ATTR) == CLASS) {
+			break;
+		}
+	}
+	error_msg(FIELD_MIS, CONTINUE, field, 0);
+	Push(false, field, 0, true);
+	return 0;
+}
+
 void
 OpenBlock()
 {
 	nesting++;
-	Push(true, 0, 0, false);		 /* push a marker onto stack */
+	Push(true, 0, 0, false);		 
 }
 
 void
@@ -276,12 +276,12 @@ CloseBlock()
 	{
 		if (!stack[i].used && !stack[i].dummy)
 		{
-
+			
 		}
 	}
 
 	nesting--;
-	stack_top = i - 1;				 /* trim the stack */
+	stack_top = i - 1;				 
 }
 
 int
@@ -327,10 +327,6 @@ uintptr_t attr_val;
 	int i;
 	if (i = IsAttr(st_ptr, attr_num))
 	{
-		/*
-			printf("DEBUG--The attribute number %d to be added already exists\n",
-												attr_num);
-		*/
 		attrarray[i].attr_val = attr_val;
 		return;
 	}
@@ -338,7 +334,6 @@ uintptr_t attr_val;
 	p = &st[st_ptr];
 	next = st[st_ptr];
 
-	/* search the link list for the right insert position */
 	while (next)
 	{
 		if (attrarray[next].attr_num < attr_num)
@@ -364,7 +359,6 @@ uintptr_t attr_val;
 	*p = attr_top;
 }
 
-
 extern FILE *table;
 
 char *kind_name[] =
@@ -372,10 +366,6 @@ char *kind_name[] =
 	"typedef", "procforw",  "procedure", "class", "array"
 };
 
-/*
-	* STPrint():  print symbol table.  This routine is incomplete, please fill
-	* in details. 
-	*/
 void
 STPrint()
 {
@@ -452,18 +442,13 @@ STPrint()
 			}
 			else {
 				fprintf(table, "%11s", " ");
-			}
-			/* if (treeval!=0)
-							printtree((tree)treeval, 0);*/
+			}			
 		}
 		fprintf(table, "\n");
 	}
 }
 
 
-/*
-	* Push():  push an element onto the stack.  
-	*/
 void
 Push(marker, name, st_ptr, dummy)
 int marker,name,st_ptr,dummy;

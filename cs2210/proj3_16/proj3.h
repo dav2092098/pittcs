@@ -1,6 +1,3 @@
-#ifndef __PROJ3_H_
-#define __PROJ3_H_
-
 #include <stdint.h>
 
 #define false 0
@@ -64,16 +61,14 @@
  * the attributes which are common to all the ids, so that we can do some
  * sorting in the link list 
  */
-#define NAME_ATTR 1		/* value: id lexeme pointer, set by InsertEntry */
-#define NEST_ATTR 2		/* value: nesting level, set by InsertEntry */
-#define TREE_ATTR 3		/* value: point back to the subtree */
-#define PREDE_ATTR 4	/* value: is this id predefined? */
-#define TYPE_ATTR 6		/* value: pointer to the type tree for a
-						 * varible, constant id or function */
-#define VALUE_ATTR 7	/* value: the value of a constant id (integer,
-						 * charater or string pointer) */
+#define NAME_ATTR 1		
+#define NEST_ATTR 2		
+#define TREE_ATTR 3		
+#define PREDE_ATTR 4	
+#define TYPE_ATTR 6								
+#define VALUE_ATTR 7	
 #define OFFSET_ATTR 8
-#define KIND_ATTR 5	     /* value: see below */
+#define KIND_ATTR 5	     
 #define DIMEN_ATTR   9
 #define ARGNUM_ATTR 10
 
@@ -107,12 +102,12 @@
  */
 struct
 {
-	bool marker;		     /* mark the beginning of a block */
-	int name;		     /* point to the lexeme of the id */
-	int st_ptr;		     /* point to the id's symble table entry */
-	bool dummy;		     /* dummy element to indicate a undeclared id */
-	bool used;		     /* this id is used? */
-} stack[STACK_SIZE];	     /* stack array */
+	bool marker;		  
+	int name;		     
+	int st_ptr;		    
+	bool dummy;		    
+	bool used;		     
+} stack[STACK_SIZE];	    
 
 /*
  * struct of element of attribute list 
@@ -133,6 +128,7 @@ void error_msg(int, int, int, int);
 int InsertEntry(int);
 int LookUp(int);
 int LookUpHere(int);
+int LookUpField(int, int);
 void OpenBlock();
 void CloseBlock();
 int IsAttr(int, int);
@@ -141,5 +137,3 @@ void SetAttr(int, int, uintptr_t);
 void STPrint();
 void Push(int, int, int, int);
 char *seq_str(int);
-
-#endif

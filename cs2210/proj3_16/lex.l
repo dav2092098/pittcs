@@ -1,6 +1,6 @@
 %{
 #include <stdlib.h>
-#include "table.h"
+#include "strtable.h"
 #include "proj2.h"
 
 #ifdef lex
