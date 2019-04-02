@@ -561,7 +561,7 @@ char *yytext;
 #line 1 "lex.l"
 #line 2 "lex.l"
 #include <stdlib.h>
-#include "table.h"
+#include "strtable.h"
 #include "proj2.h"
 
 #ifdef lex
@@ -2202,8 +2202,7 @@ void report_error(char a[]) {
 }
 #include <stdio.h>
 #include <string.h>
-
-#include "table.h"
+#include "strtable.h"
 #include "proj2.h"
 
 extern char string_table[];
@@ -2211,7 +2210,7 @@ extern int st_index;
 extern int yyleng;
 extern YYSTYPE yylval; 
 
-/*==== Prints symbol table ====*/
+/*==== Print symbol table ====*/
 void print_string_table() {
 	int i;
 	printf("String Table: ");
@@ -2224,7 +2223,7 @@ void print_string_table() {
 	}
 	printf("\n");
 }
-/*=========*/
+/*==== End print symbol table ====*/
 
 char * tolowercase(char a[]) {
 	int i;

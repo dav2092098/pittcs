@@ -15,31 +15,31 @@ void inorder(tree root);
 void process(tree root);
 void process_node(tree root);
 void process_leaf(tree root);
-void analyze_ClassOp(tree root);
-void analyze_BodyOp(tree root);
-void analyze_DeclOp(tree root);
-void analyze_MethodOp(tree root);
-void analyze_Arg(tree root);
-void analyze_Stmt(tree root);
-void analyze_AssignOp(tree root);
-int analyze_Var(tree root);
-void analyze_Exp(tree root);
-void analyze_SimpleExp(tree root);
-void analyze_RoutineCallOp(tree root);
-void analyze_Term(tree root);
-void analyze_Factor(tree root);
-void analyze_Array(tree root, int dimension, int arr);
-void analyze_VarInt(tree root, int dimension, int arr);
-void analyze_ArrayInit(tree root, int dimension, int arr);
-void analyze_ArrayCreate(tree root, int dimension, int arr);
-void analyze_ReturnOp(tree root);
-void analyze_LoopOp(tree root);
-void analyze_IfElseOp(tree root);
-int count_Args(tree root);
+void chk_ClassOp(tree root);
+void chk_BodyOp(tree root);
+void chk_DeclOp(tree root);
+void chk_MethodOp(tree root);
+void chk_Arg(tree root);
+void chk_Stmt(tree root);
+void chk_AssignOp(tree root);
+void chk_Exp(tree root);
+void chk_Array(tree root, int dimension, int arr);
+void chk_VarInt(tree root, int dimension, int arr);
+void chk_ArrayInit(tree root, int dimension, int arr);
+void chk_ArrayCreate(tree root, int dimension, int arr);
+void chk_ReturnOp(tree root);
+void chk_LoopOp(tree root);
+void chk_IfElseOp(tree root);
 void bottomUp(tree root);
 void topDownLeft(tree root);
 void topDownRight(tree root);
+void chk_SimpleExp(tree root);
+void chk_Term(tree root);
+void chk_Factor(tree root);
+void chk_RoutineCallOp(tree root);
+
 int countDimension(tree root);
+int chk_Var(tree root);
 
 int main() {
 	treelst = stdout;
@@ -88,26 +88,26 @@ void process(tree root) {
 		switch (NodeOp(root))
 		{
 			case ClassOp:
-				analyze_ClassOp(root);
+				chk_ClassOp(root);
 				break;
 			case BodyOp:
-				analyze_BodyOp(root);
+				chk_BodyOp(root);
 				break;
 			case DeclOp:
-				analyze_DeclOp(root);
+				chk_DeclOp(root);
 				break;
 			case RArgTypeOp:
 			case VArgTypeOp:
-				analyze_Arg(root);
+				chk_Arg(root);
 				break;
 			case StmtOp:
-				analyze_Stmt(root);
+				chk_Stmt(root);
 				break;
 			case CommaOp:
-				analyze_Exp(LeftChild(root));
+				chk_Exp(LeftChild(root));
 				break;			
 			case BoundOp:
-				analyze_Exp(RightChild(root));
+				chk_Exp(RightChild(root));
 				break;
 			default:
 				break;
@@ -127,7 +127,7 @@ void process(tree root) {
 }
 
 /*==== Class semantics ====*/
-void analyze_ClassOp(tree root) {
+void chk_ClassOp(tree root) {
 	int id, nSymInd;
 	tree node = RightChild(root);
 	if (NodeKind(node) == EXPRNode) {
@@ -153,7 +153,7 @@ void analyze_ClassOp(tree root) {
 	}
 }
 
-void analyze_BodyOp(tree root) {
+void chk_BodyOp(tree root) {
 	tree node = RightChild(root);
 	if (NodeKind(node) == EXPRNode) {
 		switch(NodeOp(node))
@@ -162,7 +162,7 @@ void analyze_BodyOp(tree root) {
 				topDownLeft(node);
 				break;
 			case MethodOp:
-				analyze_MethodOp(node);
+				chk_MethodOp(node);
 				break;
 			case StmtOp:				
 				bottomUp(node);
@@ -186,7 +186,7 @@ void analyze_BodyOp(tree root) {
 /*==== End Class semantics ====*/
 
 /*==== Method semantics ====*/
-void analyze_MethodOp(tree root) {		
+void chk_MethodOp(tree root) {		
 	tree name = LeftChild(LeftChild(root));
 	int nSymInd = InsertEntry(IntVal(name));
 
@@ -221,7 +221,7 @@ int count_Args(tree root) {
 	return count_Args(RightChild(root)) + 1;
 }
 
-void analyze_Arg(tree root) {
+void chk_Arg(tree root) {
 	tree name = LeftChild(LeftChild(root));
 	tree type = RightChild(LeftChild(root));	
 	int nSymInd = InsertEntry(IntVal(name));
@@ -239,7 +239,7 @@ void analyze_Arg(tree root) {
 /*==== End Method semantics ====*/
 
 /*==== Var declaration semantics ====*/
-void analyze_DeclOp(tree root) {
+void chk_DeclOp(tree root) {
 	int id, nSymInd;	
 	int dimension = 0;	
 	tree name = LeftChild(RightChild(root));
@@ -274,20 +274,20 @@ void analyze_DeclOp(tree root) {
 	}
 
 	tree varInt = RightChild(RightChild(RightChild(root)));	
-	analyze_VarInt(varInt, dimension, nSymInd);
+	chk_VarInt(varInt, dimension, nSymInd);
 }
 /*==== End Var declaration semantics ====*/
 
 /*==== Var-Int semantics ====*/
-void analyze_VarInt(tree root, int dimension, int arr) {
+void chk_VarInt(tree root, int dimension, int arr) {
 	if (IsNull(root)) {
 		return;
 	}
 	if (NodeKind(root) == EXPRNode) {		
 		if (NodeOp(root) == ArrayTypeOp) {
-			analyze_Array(root, dimension, arr);
+			chk_Array(root, dimension, arr);
 		} else {			
-			analyze_Exp(root);
+			chk_Exp(root);
 		}
 	}
 	else {
@@ -305,29 +305,29 @@ void analyze_VarInt(tree root, int dimension, int arr) {
 /*==== End Var-Int semantics ====*/
 
 /*==== Array semantics ====*/
-void analyze_Array(tree root, int dimension, int arr) {
+void chk_Array(tree root, int dimension, int arr) {
 	tree start = LeftChild(root);
 	if (IsNull(start)) {
 		return;
 	}
 	
 	if (NodeOp(start) == CommaOp) {
-		analyze_ArrayInit(start, dimension, arr);	
+		chk_ArrayInit(start, dimension, arr);	
 	} else {
-		analyze_ArrayCreate(start, dimension, arr);
+		chk_ArrayCreate(start, dimension, arr);
 	}
 }
 
-void analyze_ArrayInit(tree root, int dimension, int arr) {
+void chk_ArrayInit(tree root, int dimension, int arr) {
 	if (IsNull(root)) {
 		return;
 	}
 	
-	analyze_ArrayInit(LeftChild(root), dimension, arr);	
-	analyze_VarInt(RightChild(root), dimension, arr);
+	chk_ArrayInit(LeftChild(root), dimension, arr);	
+	chk_VarInt(RightChild(root), dimension, arr);
 }
 
-void analyze_ArrayCreate(tree root, int dimension, int arr) {
+void chk_ArrayCreate(tree root, int dimension, int arr) {
 	int dimensions = countDimensionsLeft(root);	
 	if (dimensions != dimension) {
 		error_msg(
@@ -355,7 +355,7 @@ int countDimensionsLeft(tree root) {
 }
 
 /*==== Statement semantics ====*/
-void analyze_Stmt(tree root) {
+void chk_Stmt(tree root) {
 	tree op = RightChild(root);
 	if (IsNull(op)) {
 		return;
@@ -374,19 +374,19 @@ void analyze_Stmt(tree root) {
 	switch (NodeOp(op)) 
 	{
 		case AssignOp:
-			analyze_AssignOp(op);
+			chk_AssignOp(op);
 			break;
 		case RoutineCallOp:
-			analyze_RoutineCallOp(op);
+			chk_RoutineCallOp(op);
 			break;
 		case ReturnOp:
-			analyze_ReturnOp(op);
+			chk_ReturnOp(op);
 			break;
 		case IfElseOp:
-			analyze_IfElseOp(op);
+			chk_IfElseOp(op);
 			break;
 		case LoopOp:
-			analyze_LoopOp(op);
+			chk_LoopOp(op);
 			break;
 		default:
 			break;
@@ -395,14 +395,14 @@ void analyze_Stmt(tree root) {
 /*==== End Statement semantics ====*/
 
 /*==== If-Else semantics ====*/
-void analyze_IfElseOp(tree root) {
+void chk_IfElseOp(tree root) {
 	if (IsNull(root)) {
 		return;
 	}
 	
-	analyze_IfElseOp(LeftChild(root));
+	chk_IfElseOp(LeftChild(root));
 	if (NodeOp(RightChild(root)) == CommaOp) {			
-		analyze_Exp(LeftChild(RightChild(root)));		
+		chk_Exp(LeftChild(RightChild(root)));		
 		bottomUp(RightChild(RightChild(root)));
 	}
 	
@@ -413,32 +413,32 @@ void analyze_IfElseOp(tree root) {
 /*==== End If-Else semantics ====*/
 
 /*==== Return semantics ====*/
-void analyze_ReturnOp(tree root) {
+void chk_ReturnOp(tree root) {
 	if (!IsNull(LeftChild(root))) {
-		analyze_Exp(LeftChild(root));
+		chk_Exp(LeftChild(root));
 	}
 }
 /*==== End Return semantics ====*/
 
 /*==== Loop semantics ====*/
-void analyze_LoopOp(tree root) {
-	analyze_Exp(LeftChild(root));
+void chk_LoopOp(tree root) {
+	chk_Exp(LeftChild(root));
 	bottomUp(RightChild(root));
 }
 /*==== End Loop semantics ====*/
 
 /*==== Assignment semantics ====*/
-void analyze_AssignOp(tree root) {
+void chk_AssignOp(tree root) {
 	tree var = RightChild(LeftChild(root));
-	analyze_Var(var);
+	chk_Var(var);
 	tree exp = RightChild(root);
-	analyze_Exp(exp);
+	chk_Exp(exp);
 }
 /*==== End Assignment semantics ====*/
 
 
 /*==== Var semantics ====*/
-int analyze_Var(tree root) {
+int chk_Var(tree root) {
 	if (NodeKind(root) != EXPRNode) {
 		return;
 	}
@@ -471,7 +471,7 @@ int analyze_Var(tree root) {
 					continue;
 				}
 			}			
-			analyze_Exp(LeftChild(LeftChild(select)));
+			chk_Exp(LeftChild(LeftChild(select)));
 		} 
 		if (NodeOp(LeftChild(select)) == FieldOp) {			
 			if (classIndex == -1) {
@@ -516,7 +516,7 @@ int analyze_Var(tree root) {
 /*==== End Var semantics ====*/
 
 /*==== Expression semantics ====*/
-void analyze_Exp(tree root) {
+void chk_Exp(tree root) {
 	if (NodeKind(root) == EXPRNode) {
 		switch(NodeOp(root))
 		{
@@ -526,11 +526,11 @@ void analyze_Exp(tree root) {
 			case NEOp:
 			case GEOp:
 			case GTOp:
-				analyze_SimpleExp(LeftChild(root));
-				analyze_SimpleExp(RightChild(root));
+				chk_SimpleExp(LeftChild(root));
+				chk_SimpleExp(RightChild(root));
 				break;
 			default:
-				analyze_SimpleExp(root);
+				chk_SimpleExp(root);
 				break;
 		}
 	}
@@ -547,7 +547,7 @@ void analyze_Exp(tree root) {
 	}
 }
 
-void analyze_SimpleExp(tree root) {
+void chk_SimpleExp(tree root) {
 	int last = 0;
 	if (IsNull(root)) {
 		return;
@@ -557,19 +557,19 @@ void analyze_SimpleExp(tree root) {
 			case AddOp:
 			case SubOp:
 			case OrOp:
-				analyze_SimpleExp(LeftChild(root));
+				chk_SimpleExp(LeftChild(root));
 				break;
 			case UnaryNegOp:
 				last = 1;
-				analyze_Term(LeftChild(root));
+				chk_Term(LeftChild(root));
 				break;
 			default:
 				last = 1;
-				analyze_Term(root);
+				chk_Term(root);
 				break;
 		}
 		if (last == 0) {
-			analyze_Term(RightChild(root));
+			chk_Term(RightChild(root));
 		}
 	}
 	else {
@@ -587,7 +587,7 @@ void analyze_SimpleExp(tree root) {
 /*==== End expression semantics ====*/
 
 /*==== Term semantics ====*/
-void analyze_Term(tree root) {
+void chk_Term(tree root) {
 	int last = 0;
 	if (IsNull(root)) {
 		return;
@@ -597,15 +597,15 @@ void analyze_Term(tree root) {
 			case MultOp:
 			case DivOp:
 			case AndOp:
-				analyze_Term(LeftChild(root));
+				chk_Term(LeftChild(root));
 				break;
 			default:
 				last = 1;
-				analyze_Factor(root);
+				chk_Factor(root);
 				break;
 		}
 		if (last == 0) {
-			analyze_Factor(RightChild(root));
+			chk_Factor(RightChild(root));
 		}
 	}
 	else {
@@ -623,20 +623,20 @@ void analyze_Term(tree root) {
 /*==== End Term semantics ====*/
 
 /*==== Factor semantics ====*/
-void analyze_Factor(tree root) {
+void chk_Factor(tree root) {
 	if (IsNull(root)) {
 		return;
 	}
 	if (NodeKind(root) == EXPRNode) {
 		switch (NodeOp(root)) {
 			case VarOp:
-				analyze_Var(root);
+				chk_Var(root);
 				break;
 			case RoutineCallOp:
-				analyze_RoutineCallOp(root);
+				chk_RoutineCallOp(root);
 				break;
 			default:
-				analyze_Exp(root);
+				chk_Exp(root);
 				break;
 		}
 	}
@@ -655,9 +655,9 @@ void analyze_Factor(tree root) {
 /*==== End Term semantics ====*/
 
 /*==== Function call semantics ====*/
-void analyze_RoutineCallOp(tree root) {
+void chk_RoutineCallOp(tree root) {
 	tree var = LeftChild(root);	
-	int name = analyze_Var(var);
+	int name = chk_Var(var);
 	if (name == 0) {
 		return;
 	}
