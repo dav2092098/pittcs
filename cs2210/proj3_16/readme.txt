@@ -16,4 +16,4 @@ Runs the semantic analyzer on a file
 
 This was compiled and tested on oxygen.cs.pitt.edu and germanium.cs.pitt.edu 
 
-This project uses files from projects 1 and 2. Some discrepancies in the prior projects therefore carry over into this one. For example, the ignoring of letter case is carried over as well as the shift reduce conflicts from project 2.
+This project uses files from projects 1 and 2. Some discrepancies in the prior projects, therefore, carry over into this one. For example, the ignoring of letter case is carried over as well as the shift reduce conflicts from project 2.
